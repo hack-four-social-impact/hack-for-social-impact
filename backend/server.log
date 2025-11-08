@@ -1,0 +1,14 @@
+INFO:     Will watch for changes in these directories: ['/Users/luisarevalo/Desktop/hack 4 social good/main/backend']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [49028] using WatchFiles
+INFO:     Started server process [49093]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+Warning: google-generativeai package not installed properly
+INFO:     127.0.0.1:52718 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52729 - "POST /pdf/process HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [49093]
+INFO:     Stopping reloader process [49028]

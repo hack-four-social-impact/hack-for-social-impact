@@ -1,124 +1,180 @@
 # Backend API
 
-A FastAPI-based backend server with PDF processing and Google Gemini AI integration.
+A FastAPI-based backend server with PDF processing and Google Gemini AI integration for converting PDFs to markdown.
 
-## Prerequisites
+## 🚀 Quick Start
 
-- Python 3.13 or higher
-- pip (Python package installer)
-- Google Gemini API key (for AI features)
+### Prerequisites
 
-## Setup
+- **Python 3.13+** ([Download Python](https://python.org/downloads/))
+- **Git** ([Download Git](https://git-scm.com/downloads/))
+- **Google Gemini API Key** ([Get API Key](https://aistudio.google.com/))
 
-1. **Navigate to the backend directory**
+### 📦 Installation & Setup
+
+1. **Clone the repository**
 
    ```bash
-   cd main/backend
+   git clone https://github.com/hack-four-social-impact/hack-for-social-impact.git
+   cd hack-for-social-impact/main/backend
    ```
 
-2. **Create a virtual environment (optional but recommended)**
+2. **Create and activate virtual environment**
 
    ```bash
+   # Create virtual environment
    python -m venv .venv
-   source .venv/bin/activate  # On macOS/Linux
-   # or
-   .venv\Scripts\activate     # On Windows
+
+   # Activate it
+   # On macOS/Linux:
+   source .venv/bin/activate
+
+   # On Windows:
+   .venv\Scripts\activate
    ```
 
 3. **Install dependencies**
 
    ```bash
-   pip install fastapi uvicorn[standard] google-generativeai PyPDF2 python-multipart python-dotenv
-   ```
+   # Install all required packages
+   pip install fastapi uvicorn[standard] google-generativeai PyPDF2 python-multipart python-dotenv requests
 
-   Or if you have the project configured with pyproject.toml:
-
-   ```bash
+   # Or use the project configuration:
    pip install -e .
    ```
 
 4. **Configure environment variables**
 
-   Copy the example environment file and configure your API keys:
-
    ```bash
-   cp .env.example .env
+   # Copy the example file (if it exists)
+   cp .env.example .env  # Skip if file doesn't exist
+
+   # Create .env file with your API key
+   echo "GEMINI_API_KEY=your_actual_gemini_api_key_here" > .env
+   echo "HOST=0.0.0.0" >> .env
+   echo "PORT=8000" >> .env
+   echo "DEBUG=True" >> .env
    ```
 
-   Edit `.env` and add your Google Gemini API key:
+5. **Get your Gemini API Key**
+   - Go to [Google AI Studio](https://aistudio.google.com/)
+   - Sign in with your Google account
+   - Create a new API key
+   - Copy the key and replace `your_actual_gemini_api_key_here` in your `.env` file
 
-   ```env
-   GEMINI_API_KEY=your_actual_api_key_here
-   ```
+## 🏃‍♂️ Running the Server
 
-## Running the Server
-
-### Development Mode (with auto-reload)
+### Option 1: Quick Start (Development)
 
 ```bash
+# Make sure you're in the backend directory and virtual environment is active
+cd main/backend
+source .venv/bin/activate  # On macOS/Linux
 uvicorn main:app --reload
 ```
 
-### Production Mode
+### Option 2: Custom Configuration
 
 ```bash
-uvicorn main:app --host 0.0.0.0 --port 8000
+# Run on specific host and port
+uvicorn main:app --host 127.0.0.1 --port 8000 --reload
+
+# Run on all interfaces (for network access)
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-### Custom Host and Port
+### Option 3: Production Mode
 
 ```bash
-uvicorn main:app --host 127.0.0.1 --port 3001 --reload
+# For production deployment
+uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4
 ```
 
-## Accessing the API
+### ✅ Verify It's Working
 
-- **API Base URL**: `http://localhost:8000`
-- **Interactive API Documentation (Swagger)**: `http://localhost:8000/docs`
-- **Alternative API Documentation (ReDoc)**: `http://localhost:8000/redoc`
-- **OpenAPI Schema**: `http://localhost:8000/openapi.json`
+Once the server starts, you should see:
 
-## Available Endpoints
+```
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [12345] using WatchFiles
+INFO:     Started server process [12346]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+```
 
-### Basic Endpoints
+**Test the API:**
 
-- `GET /` - Returns API information
-- `GET /health` - Health check endpoint with Gemini configuration status
+- Open your browser and go to: http://localhost:8000/docs
+- You should see the interactive API documentation (Swagger UI)
 
-### PDF Processing Endpoints
+## 🌐 API Access
 
-- `POST /pdf/process` - Upload a PDF file and process it with Google Gemini AI
+| Resource           | URL                                  | Description                   |
+| ------------------ | ------------------------------------ | ----------------------------- |
+| **API Base**       | `http://localhost:8000`              | Main API endpoint             |
+| **Swagger UI**     | `http://localhost:8000/docs`         | Interactive API documentation |
+| **ReDoc**          | `http://localhost:8000/redoc`        | Alternative API documentation |
+| **OpenAPI Schema** | `http://localhost:8000/openapi.json` | API schema in JSON format     |
+| **Health Check**   | `http://localhost:8000/health`       | Server health status          |
 
-  - **Parameters:**
-    - `file`: PDF file (required)
-    - `prompt`: Custom prompt for AI analysis (optional, default: "Please summarize this document")
-    - `max_tokens`: Maximum tokens for response (optional, default: 1000)
-  - **Response:** Extracted text and Gemini AI analysis
+## 📋 API Endpoints
 
-- `POST /pdf/extract-text` - Extract text from PDF without AI processing
-  - **Parameters:**
-    - `file`: PDF file (required)
-  - **Response:** Extracted text only
+### 🏥 Health & Status
 
-### Example Usage
+| Method | Endpoint  | Description                                   |
+| ------ | --------- | --------------------------------------------- |
+| `GET`  | `/`       | API information and welcome message           |
+| `GET`  | `/health` | Health check + Gemini AI configuration status |
 
-#### Using curl to process a PDF with Gemini:
+### 📄 PDF Processing
+
+| Method | Endpoint            | Description                         | Parameters                                                 |
+| ------ | ------------------- | ----------------------------------- | ---------------------------------------------------------- |
+| `POST` | `/pdf/process`      | Upload PDF + AI markdown conversion | `file` (PDF), `prompt` (optional), `max_tokens` (optional) |
+| `POST` | `/pdf/extract-text` | Extract text from PDF only          | `file` (PDF)                                               |
+
+## 🧪 Testing the API
+
+### Method 1: Using the Web Interface (Easiest)
+
+1. Open: http://localhost:8000/docs
+2. Click on `/pdf/process` endpoint
+3. Click "Try it out"
+4. Upload a PDF file
+5. Add a custom prompt (optional)
+6. Click "Execute"
+
+### Method 2: Using curl (Command Line)
+
+**Process PDF with AI:**
 
 ```bash
 curl -X POST "http://localhost:8000/pdf/process" \
-  -H "accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -F "file=@/path/to/your/document.pdf" \
-  -F "prompt=Summarize the key points of this document"
+  -F "prompt=Convert this document to well-formatted markdown with proper headings and structure"
 ```
 
-#### Using curl to extract text only:
+**Extract text only:**
 
 ```bash
 curl -X POST "http://localhost:8000/pdf/extract-text" \
-  -H "accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -F "file=@/path/to/your/document.pdf"
+```
+
+### Method 3: Using Python
+
+```python
+import requests
+
+# Process PDF with AI
+with open('document.pdf', 'rb') as f:
+    files = {'file': f}
+    data = {'prompt': 'Convert to markdown format'}
+    response = requests.post('http://localhost:8000/pdf/process', files=files, data=data)
+    result = response.json()
+    print(result['gemini_analysis'])
 ```
 
 ## Development
@@ -177,24 +233,130 @@ backend/
         └── pdf_service.py  # PDF and Gemini AI services
 ```
 
-## Troubleshooting
+## 🔧 Troubleshooting
 
-- **Port already in use**: Change the port using `--port` flag or kill the process using the port
-- **Module not found**: Make sure you're in the correct directory and dependencies are installed
-- **Permission denied**: On macOS/Linux, you might need to use `sudo` or check file permissions
-- **Gemini API errors**:
-  - Check that your API key is correct in the `.env` file
-  - Verify your API key has proper permissions
-  - Check your API usage limits
-- **PDF processing errors**:
-  - Ensure the file is a valid PDF
-  - Check file size (10MB limit)
-  - Verify the PDF contains extractable text (not just images)
+### Common Issues
 
-## Next Steps
+| Problem                        | Solution                                                                                     |
+| ------------------------------ | -------------------------------------------------------------------------------------------- |
+| **"Port already in use"**      | Kill existing process: `lsof -ti:8000 \| xargs kill -9` or use different port: `--port 8001` |
+| **"Module not found"**         | Activate virtual environment: `source .venv/bin/activate` and reinstall: `pip install -e .`  |
+| **"Permission denied"**        | Check file permissions or try without `sudo`                                                 |
+| **"GEMINI_API_KEY not found"** | Create `.env` file with your API key (see setup steps above)                                 |
+| **"PDF processing failed"**    | Ensure PDF is valid, under 10MB, and contains extractable text                               |
 
-- Add database integration
-- Implement authentication
-- Add logging and monitoring
-- Create additional API endpoints
-- Add tests
+### Environment Issues
+
+**If Gemini AI is not working:**
+
+1. Check your `.env` file exists and contains your API key
+2. Verify API key at [Google AI Studio](https://aistudio.google.com/)
+3. Check API usage limits and billing
+4. Restart the server after updating `.env`
+
+**If dependencies fail to install:**
+
+```bash
+# Upgrade pip first
+pip install --upgrade pip
+
+# Install dependencies one by one
+pip install fastapi
+pip install uvicorn[standard]
+pip install google-generativeai
+pip install PyPDF2 python-multipart python-dotenv
+```
+
+### Getting Help
+
+- Check server logs for detailed error messages
+- Test with `/health` endpoint first
+- Verify API is accessible at http://localhost:8000/docs
+- Ensure you're in the correct directory (`main/backend`)
+
+## 🏗️ Project Structure
+
+```
+backend/
+├── main.py                 # FastAPI application entry point
+├── pyproject.toml          # Project configuration and dependencies
+├── README.md              # This documentation
+├── .env                   # Environment variables (not committed)
+├── .gitignore             # Git ignore rules
+└── api/                   # API package
+    ├── __init__.py
+    ├── core/
+    │   ├── __init__.py
+    │   └── config.py      # Application configuration
+    ├── routes/
+    │   ├── __init__.py
+    │   ├── health.py      # Health check endpoints
+    │   └── pdf.py         # PDF processing endpoints
+    └── services/
+        ├── __init__.py
+        └── pdf_service.py # PDF and Gemini AI services
+```
+
+## 🛠️ Development
+
+### Adding New Features
+
+1. **New endpoints**: Add to `api/routes/`
+2. **Business logic**: Add to `api/services/`
+3. **Configuration**: Update `api/core/config.py`
+
+### Code Style
+
+```bash
+# Format code
+black .
+isort .
+
+# Run tests (when available)
+pytest
+```
+
+### Environment Variables
+
+| Variable         | Description              | Default   |
+| ---------------- | ------------------------ | --------- |
+| `GEMINI_API_KEY` | Google Gemini AI API key | Required  |
+| `HOST`           | Server host              | `0.0.0.0` |
+| `PORT`           | Server port              | `8000`    |
+| `DEBUG`          | Debug mode               | `True`    |
+
+## 🚀 Deployment
+
+### Docker (Optional)
+
+```bash
+# Build image
+docker build -t pdf-backend .
+
+# Run container
+docker run -p 8000:8000 --env-file .env pdf-backend
+```
+
+### Production Checklist
+
+- [ ] Set `DEBUG=False` in production
+- [ ] Use environment-specific API keys
+- [ ] Set up proper logging
+- [ ] Configure HTTPS
+- [ ] Set up monitoring
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📄 License
+
+This project is part of the Hack for Social Impact initiative.
+
+---
+
+**Need help?** Open an issue or contact the development team.
