@@ -128,10 +128,95 @@ INFO:     Application startup complete.
 
 ### 📄 PDF Processing
 
-| Method | Endpoint            | Description                         | Parameters                                                 |
-| ------ | ------------------- | ----------------------------------- | ---------------------------------------------------------- |
-| `POST` | `/pdf/process`      | Upload PDF + AI markdown conversion | `file` (PDF), `prompt` (optional), `max_tokens` (optional) |
-| `POST` | `/pdf/extract-text` | Extract text from PDF only          | `file` (PDF)                                               |
+| Method | Endpoint              | Description                                    | Parameters                                                 |
+| ------ | --------------------- | ---------------------------------------------- | ---------------------------------------------------------- |
+| `POST` | `/pdf/process`        | Upload PDF + AI markdown conversion (general)  | `file` (PDF), `prompt` (optional), `max_tokens` (optional) |
+| `POST` | `/pdf/parole-summary` | Generate parole hearing summary with citations | `file` (PDF)                                               |
+| `POST` | `/pdf/extract-text`   | Extract text from PDF only (no AI processing)  | `file` (PDF)                                               |
+
+#### Detailed Endpoint Information
+
+##### `/pdf/parole-summary` 🎯 **Recommended for Parole Documents**
+
+**Purpose**: Specialized endpoint for generating structured parole hearing summaries with precise line number citations.
+
+**Request**:
+
+```bash
+curl -X POST "http://localhost:8000/pdf/parole-summary" \
+  -H "Content-Type: multipart/form-data" \
+  -F "file=@parole_hearing.pdf"
+```
+
+**Response**:
+
+```json
+{
+  "success": true,
+  "filename": "parole_hearing.pdf",
+  "file_size": 122133,
+  "extracted_text_length": 26175,
+  "markdown_summary": "# Parole Hearing Summary\n\n## Offense Context\n- Crime: Second-degree murder - (Line 9)\n...",
+  "summary_type": "parole_hearing_summary"
+}
+```
+
+**Features**:
+
+- ✅ **Line Number Citations**: Every fact includes specific line references
+- ✅ **Structured Analysis**: Covers offense context, programming, parole factors, contradictions
+- ✅ **Direct Quotes**: Includes actual quotes from commissioners and participants
+- ✅ **Legal Format**: Professional format suitable for legal review
+
+##### `/pdf/process` 🔧 **General PDF Processing**
+
+**Purpose**: Flexible endpoint with custom prompts for various document types.
+
+**Request**:
+
+```bash
+curl -X POST "http://localhost:8000/pdf/process" \
+  -H "Content-Type: multipart/form-data" \
+  -F "file=@document.pdf" \
+  -F "prompt=Convert this to markdown with headings and bullet points" \
+  -F "max_tokens=2000"
+```
+
+**Response**:
+
+```json
+{
+  "success": true,
+  "filename": "document.pdf",
+  "file_size": 85641,
+  "extracted_text_length": 15420,
+  "markdown_summary": "# Document Summary\n\nContent here...",
+  "summary_type": "parole_hearing_analysis"
+}
+```
+
+##### `/pdf/extract-text` 📝 **Text Extraction Only**
+
+**Purpose**: Extract raw text from PDF without AI processing.
+
+**Request**:
+
+```bash
+curl -X POST "http://localhost:8000/pdf/extract-text" \
+  -H "Content-Type: multipart/form-data" \
+  -F "file=@document.pdf"
+```
+
+**Response**:
+
+```json
+{
+  "success": true,
+  "filename": "document.pdf",
+  "file_size": 85641,
+  "extracted_text": "Raw text content from the PDF..."
+}
+```
 
 ## 🧪 Testing the API
 
@@ -146,7 +231,15 @@ INFO:     Application startup complete.
 
 ### Method 2: Using curl (Command Line)
 
-**Process PDF with AI:**
+**Generate Parole Hearing Summary (Recommended):**
+
+```bash
+curl -X POST "http://localhost:8000/pdf/parole-summary" \
+  -H "Content-Type: multipart/form-data" \
+  -F "file=@/path/to/parole_hearing.pdf"
+```
+
+**Process PDF with Custom AI Prompt:**
 
 ```bash
 curl -X POST "http://localhost:8000/pdf/process" \
@@ -168,13 +261,27 @@ curl -X POST "http://localhost:8000/pdf/extract-text" \
 ```python
 import requests
 
-# Process PDF with AI
+# Generate Parole Hearing Summary (Recommended)
+with open('parole_hearing.pdf', 'rb') as f:
+    files = {'file': f}
+    response = requests.post('http://localhost:8000/pdf/parole-summary', files=files)
+    result = response.json()
+    print(result['markdown_summary'])
+
+# Process PDF with Custom Prompt
 with open('document.pdf', 'rb') as f:
     files = {'file': f}
     data = {'prompt': 'Convert to markdown format'}
     response = requests.post('http://localhost:8000/pdf/process', files=files, data=data)
     result = response.json()
-    print(result['gemini_analysis'])
+    print(result['markdown_summary'])
+
+# Extract Text Only
+with open('document.pdf', 'rb') as f:
+    files = {'file': f}
+    response = requests.post('http://localhost:8000/pdf/extract-text', files=files)
+    result = response.json()
+    print(result['extracted_text'])
 ```
 
 ## Development
@@ -274,6 +381,33 @@ pip install PyPDF2 python-multipart python-dotenv
 - Verify API is accessible at http://localhost:8000/docs
 - Ensure you're in the correct directory (`main/backend`)
 
+## 🤖 AI Model Information
+
+### Google Gemini 2.5 Flash
+
+- **Model**: `gemini-2.5-flash`
+- **Provider**: Google AI Studio
+- **Features**: Advanced text analysis, citation generation, legal document processing
+- **Specialization**: Parole hearing transcript analysis with line-number citations
+
+### Citation System
+
+The AI generates precise citations for all facts and quotes:
+
+- **Direct Quotes**: `"Quote text" - (Speaker Name, Line X)`
+- **Factual References**: `Information found at Line X-Y`
+- **Multi-line References**: `Lines X-Y`
+
+Example output:
+
+```markdown
+## Parole Factors Cited
+
+- "You can't get any more 115s" - (Commissioner Ruff, Line 245)
+- Classification score: "68 points" - (Emmanuel Young, Line 4)
+- Crime details found at Lines 8-12
+```
+
 ## 🏗️ Project Structure
 
 ```
@@ -287,14 +421,14 @@ backend/
     ├── __init__.py
     ├── core/
     │   ├── __init__.py
-    │   └── config.py      # Application configuration
+    │   └── config.py      # Application configuration & Gemini model setup
     ├── routes/
     │   ├── __init__.py
     │   ├── health.py      # Health check endpoints
-    │   └── pdf.py         # PDF processing endpoints
+    │   └── pdf.py         # PDF processing endpoints with AI prompts
     └── services/
         ├── __init__.py
-        └── pdf_service.py # PDF and Gemini AI services
+        └── pdf_service.py # PDF extraction & Gemini AI services
 ```
 
 ## 🛠️ Development
