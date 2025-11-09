@@ -121,9 +121,13 @@ npm run lint
 ## Important Notes
 
 ### Styling Approach
-- **All inline CSS** - No CSS frameworks (Tailwind, MUI, etc.)
-- Inline styles for all components and pages
-- Uses hex colors and standard CSS properties
+**⚠️ IMPORTANT: DESIGN FOR LIGHT MODE ONLY - No dark mode support**
+
+- **CSS Variables + Inline Styles** - Hybrid approach using design tokens
+- CSS custom properties (variables) defined in `src/index.css` for colors, spacing, typography, etc.
+- Components use inline styles that reference CSS variables via `var(--variable-name)`
+- No CSS frameworks (Tailwind, MUI, etc.)
+- Example: `backgroundColor: 'var(--primary-blue)'`
 
 ### Page-Based Testing
 - Separate test pages for different features
@@ -161,10 +165,21 @@ npm run lint
 
 ## TypeScript Configuration
 - **Strict mode** enabled
+- **verbatimModuleSyntax** enabled - requires type-only imports for types
 - No unused locals/parameters
 - ES2022 target
 - JSX: react-jsx (automatic transform)
 - Module resolution: bundler
+
+### Type-Only Imports
+When importing types from React or other libraries, use type-only imports:
+```typescript
+// ✅ Correct - type-only imports
+import { useState, type ChangeEvent, type FormEvent } from 'react'
+
+// ❌ Incorrect - will cause build errors
+import { useState, ChangeEvent, FormEvent } from 'react'
+```
 
 ## Current Status
 ✅ Basic Vite + React + TypeScript setup
@@ -172,6 +187,7 @@ npm run lint
 ✅ API service layer with axios
 ✅ Test pages for isolated feature testing
 ✅ Navigation system (state-based, no router)
+✅ Production build working (type-only imports configured)
 🚧 Full integration: Modal → API → Display results (in progress)
 
 ## Next Steps
