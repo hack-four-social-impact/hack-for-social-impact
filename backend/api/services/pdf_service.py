@@ -154,6 +154,201 @@ class GeminiService:
 
         return mock_summary
 
+    def _generate_mock_demographics(self, text: str) -> str:
+        """Generate mock demographics data based on text analysis."""
+        import json
+
+        # Extract key information from the text
+        lines = text.split("\n")
+
+        # Initialize demographics object
+        demographics = {
+            "clientInfo": {"name": "", "cdcrNumber": "", "dateOfBirth": "", "contactInfo": ""},
+            "introduction": {"shortSummary": ""},
+            "evidenceUsedToConvict": [],
+            "potentialTheory": "",
+            "convictionInfo": {
+                "dateOfCrime": "",
+                "locationOfCrime": "",
+                "dateOfArrest": "",
+                "charges": "",
+                "dateOfConviction": "",
+                "sentenceLength": "",
+                "county": "",
+                "trialOrPlea": "",
+            },
+            "appealInfo": {"directAppealFiled": "", "appellateCourtCaseNumber": "", "dateDecided": "", "result": "", "habenasFilings": []},
+            "attorneyInfo": {
+                "currentAttorneyForIncarceratedPerson": {
+                    "name": "",
+                    "title": "",
+                    "firm": "",
+                    "address": "",
+                    "phone": "",
+                    "email": "",
+                    "presentAtHearing": False,
+                    "representationContext": "",
+                },
+                "trialAttorney": {"name": "", "address": "", "phone": "", "caseNumber": "", "appointedOrRetained": ""},
+                "appellateAttorney": {"name": "", "address": "", "phone": "", "caseNumbers": "", "courtLevel": ""},
+                "otherLegalRepresentation": [],
+            },
+            "newEvidence": [],
+            "codefendants": "",
+            "physicalDescription": {"height": "", "weight": "", "race": "", "build": "", "distinguishingMarks": ""},
+            "victimInfo": {"name": "", "relationship": ""},
+            "prisonRecord": {"conduct": "", "programming": "", "support": ""},
+        }
+
+        # Extract information from text
+        for line in lines:
+            line_lower = line.lower()
+
+            # Client Info
+            if "emmanuel young" in line_lower:
+                demographics["clientInfo"]["name"] = "Emmanuel Young"
+            if "cdcr number:" in line_lower or "cdc number" in line_lower:
+                if "ak2960" in line_lower:
+                    demographics["clientInfo"]["cdcrNumber"] = "AK2960"
+
+            # Attorney Info - Look for common attorney patterns
+            attorney_patterns = [
+                "attorney for incarcerated person",
+                "counsel for",
+                "representing",
+                "attorney present",
+                "legal counsel",
+                "public defender",
+                "defense attorney",
+            ]
+
+            if any(phrase in line_lower for phrase in attorney_patterns):
+                # Extract attorney name and context
+                if "attorney for incarcerated person" in line_lower:
+                    demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"]["representationContext"] = "Attorney for Incarcerated Person"
+                    demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"]["presentAtHearing"] = True
+                    # Try to extract name from the line
+                    if ":" in line:
+                        parts = line.split(":")
+                        if len(parts) > 1:
+                            potential_name = parts[1].strip().rstrip(".")
+                            if len(potential_name) > 2 and len(potential_name) < 50:
+                                demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"]["name"] = potential_name
+
+                elif "counsel for" in line_lower:
+                    demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"]["representationContext"] = "Legal Counsel"
+                    demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"]["presentAtHearing"] = True
+                    # Try to extract name
+                    if ":" in line:
+                        parts = line.split(":")
+                        if len(parts) > 1:
+                            potential_name = parts[1].strip().rstrip(".")
+                            if len(potential_name) > 2 and len(potential_name) < 50:
+                                demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"]["name"] = potential_name
+
+                elif "representing" in line_lower and ("attorney" in line_lower or "counsel" in line_lower):
+                    demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"]["representationContext"] = "Legal Representation"
+                    demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"]["presentAtHearing"] = True
+                    # Try to extract attorney name after "attorney" or "counsel"
+                    if "attorney" in line_lower:
+                        attorney_index = line_lower.find("attorney")
+                        remaining = line[attorney_index + 8 :].strip()
+                        if remaining and len(remaining) < 50:
+                            demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"]["name"] = remaining
+                            demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"]["title"] = "Attorney"
+
+                elif "attorney present" in line_lower:
+                    demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"]["representationContext"] = "Attorney Present"
+                    demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"]["presentAtHearing"] = True
+                    # Try to extract name after ":"
+                    if ":" in line:
+                        parts = line.split(":")
+                        if len(parts) > 1:
+                            potential_name = parts[1].strip().rstrip(".")
+                            if len(potential_name) > 2 and len(potential_name) < 50:
+                                demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"]["name"] = potential_name
+
+                elif "legal counsel" in line_lower:
+                    demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"]["representationContext"] = "Legal Counsel"
+                    demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"]["presentAtHearing"] = True
+                    # Try to extract name after ":"
+                    if ":" in line:
+                        parts = line.split(":")
+                        if len(parts) > 1:
+                            potential_name = parts[1].strip().rstrip(".")
+                            if len(potential_name) > 2 and len(potential_name) < 50:
+                                demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"]["name"] = potential_name
+
+            # Look for attorney names that might appear in speaker identification
+            if (line_lower.startswith("attorney") or line_lower.startswith("counsel")) and ":" in line:
+                speaker_part = line.split(":")[0].strip()
+                if (
+                    len(speaker_part) > 5
+                    and len(speaker_part) < 50
+                    and not demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"]["name"]
+                ):
+                    demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"]["name"] = speaker_part
+                    demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"]["presentAtHearing"] = True
+                    demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"]["title"] = (
+                        "Attorney" if "attorney" in speaker_part.lower() else "Counsel"
+                    )
+                    demographics["attorneyInfo"]["currentAttorneyForIncarceratedPerson"][
+                        "representationContext"
+                    ] = "Speaking at Hearing"  # Conviction Info
+            if "second-degree murder" in line_lower:
+                demographics["convictionInfo"]["charges"] = "Second-degree murder with enhancements"
+            if "15 years" in line_lower and "life" in line_lower:
+                demographics["convictionInfo"]["sentenceLength"] = "15 years to life with enhancements"
+
+            # Prison Record
+            if "programming" in line_lower and ("gogi" in line_lower or "avp" in line_lower):
+                demographics["prisonRecord"]["programming"] = "Limited programming completed; GOGI and AVP recommended"
+            if "115" in line_lower or "disciplinary" in line_lower:
+                demographics["prisonRecord"]["conduct"] = "Recent disciplinary issues noted by board"
+
+        # Add summary
+        demographics["introduction"][
+            "shortSummary"
+        ] = "Parole hearing for individual serving life sentence for second-degree murder. Board noted disciplinary concerns and recommended additional programming."
+
+        # Add evidence used to convict
+        demographics["evidenceUsedToConvict"] = ["Victim testimony", "Witness statements", "Physical evidence from crime scene"]
+
+        # Add potential theory
+        demographics["potentialTheory"] = "Domestic violence incident involving substance abuse and relationship conflict"
+
+        # Add victim info
+        demographics["victimInfo"]["relationship"] = "Acquaintance known for approximately 5 months"
+
+        return json.dumps(demographics, indent=2)
+
+    def generate_parole_summary_with_demographics(self, text: str, markdown_prompt: str, demographics_prompt: str) -> tuple[str, str]:
+        """Generate both markdown summary and demographics data."""
+        if not self.model or not config.is_gemini_configured():
+            # Generate mock data
+            markdown_summary = self._generate_mock_parole_summary(text)
+            demographics_json = self._generate_mock_demographics(text)
+            return markdown_summary, demographics_json
+
+        try:
+            # Generate markdown summary
+            markdown_full_prompt = f"{markdown_prompt}\n\nDocument content:\n{text}"
+            markdown_response = self.model.generate_content(markdown_full_prompt)
+            markdown_summary = markdown_response.text
+
+            # Generate demographics data
+            demographics_full_prompt = f"{demographics_prompt}\n\nDocument content:\n{text}"
+            demographics_response = self.model.generate_content(demographics_full_prompt)
+            demographics_json = demographics_response.text
+
+            return markdown_summary, demographics_json
+
+        except Exception as e:
+            print(f"Gemini error: {e}, using mock data")
+            markdown_summary = self._generate_mock_parole_summary(text)
+            demographics_json = self._generate_mock_demographics(text)
+            return markdown_summary, demographics_json
+
     def _generate_mock_innocence_analysis(self, text: str) -> str:
         """Generate a mock innocence analysis based on text analysis."""
         import json

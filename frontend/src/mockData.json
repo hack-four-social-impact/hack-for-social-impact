@@ -1,0 +1,299 @@
+[
+  {
+    "id": 1,
+    "success": true,
+    "filename": "parole_hearing_young_2024.pdf",
+    "file_size": 125340,
+    "extracted_text_length": 28450,
+    "markdown_summary": "# Parole Hearing Summary - Emmanuel Young\n\n## Case Information\n- **Inmate**: Emmanuel Young - (Page 1, Line 8)\n- **CDCR Number**: AK2960 - (Page 1, Line 9)\n- **Hearing Date**: October 24, 2024 - (Page 1, Lines 4-5)\n\n## Offense Context\n- **Crime**: Second-degree murder - \"controlling offense of second-degree murder\" (Page 1, Line 9)\n- **Sentence**: \"15 years to life with enhancements for the use of a deadly weapon\" - (Page 1, Lines 10-11)\n- **Circumstances**: Domestic violence case involving methamphetamine use and jealousy accusations\n- **Victim**: Female acquaintance known for approximately 5 months - \"victim who you knew for about five months\" (Page 1, Line 11)\n\n## Programming\n- **Completed**: Limited programming noted\n- **Recommended**: \n  - \"GOGI, boss of my own brain\" - (Commissioner Ruff, Page 2, Line 17)\n  - \"Alternatives to Violence Program (AVP)\" - (Commissioner Weilbacher, Page 2, Lines 20-21)\n  - Domestic violence education programs\n  - \"create relapse prevention plans\" - (Commissioner Weilbacher, Page 2, Line 23)\n\n## Parole Factors Cited\n- **Unsuitability Factors**:\n  - \"You can't get any more 115s\" - (Commissioner Ruff, Page 1, Line 1)\n  - \"You've been in quite a few fights this year\" - (Commissioner Ruff, Page 1, Lines 2-3)\n  - Lack of sustained prosocial behavior\n  - \"It makes your version look like you're minimizing\" - (Commissioner Ruff, Page 1, Line 12)\n- **Classification Score**: \"68 points\" - (Emmanuel Young, Page 1, Line 4)\n- **Recommendations**: 3-year denial with stipulation - (Page 2, Lines 20-21)\n\n## Claim-of-Innocence Evidence\n- No specific innocence claims noted\n- \"my initial life term was vacated\" - (Emmanuel Young, Page 1, Lines 4-5)\n- \"I was never brought to Board in 2022\" - (Emmanuel Young, Page 1, Line 7)\n- Questions about court order timing and sentence modifications\n\n## Contradictions\n- **Victim vs. Offender Account**: \"when I read your version of what happened, and I read the version from the victim...her version is significantly different than yours\" - (Commissioner Ruff, Page 1, Lines 8-12)\n- **Violence Minimization**: \"she was beat to death basically\" vs inmate's account - (Commissioner Ruff, Page 1, Line 13)\n- **Witness Reports**: \"these witnesses who are in these reports, they report that\" - (Commissioner Ruff, Page 2, Line 17)",
+    "demographics": {
+      "clientInfo": {
+        "name": "Emmanuel Young",
+        "cdcrNumber": "AK2960",
+        "dateOfBirth": "March 15, 1985",
+        "contactInfo": "c/o California Correctional Institution"
+      },
+      "introduction": {
+        "shortSummary": "Parole hearing for Emmanuel Young serving 15 years to life for second-degree murder with enhancements. Board noted disciplinary concerns and recommended additional programming before next hearing."
+      },
+      "evidenceUsedToConvict": [
+        "Victim testimony describing domestic violence incident",
+        "Witness statements from neighbors reporting argument",
+        "Physical evidence from crime scene including weapon",
+        "Medical examiner testimony regarding cause of death",
+        "Defendant's statements to police at time of arrest"
+      ],
+      "potentialTheory": "Domestic violence incident escalated during methamphetamine-influenced argument about suspected infidelity, resulting in fatal assault with deadly weapon",
+      "convictionInfo": {
+        "dateOfCrime": "August 12, 2019",
+        "locationOfCrime": "Riverside County, CA",
+        "dateOfArrest": "August 13, 2019",
+        "charges": "Second-degree murder with deadly weapon enhancement",
+        "dateOfConviction": "November 22, 2020",
+        "sentenceLength": "15 years to life with enhancements",
+        "county": "Riverside County",
+        "trialOrPlea": "Jury Trial"
+      },
+      "appealInfo": {
+        "directAppealFiled": "Yes",
+        "appellateCourtCaseNumber": "E078542",
+        "dateDecided": "March 15, 2022",
+        "result": "Affirmed with modification to sentence calculation",
+        "habenasFilings": []
+      },
+      "attorneyInfo": {
+        "currentAttorneyForIncarceratedPerson": {
+          "name": "Sarah Chen, Esq.",
+          "title": "Attorney",
+          "firm": "Public Defender's Office",
+          "address": "3555 12th Street, Riverside, CA 92501",
+          "phone": "(951) 555-0123",
+          "email": "s.chen@pd.riverside.ca.gov",
+          "presentAtHearing": true,
+          "representationContext": "Attorney for Incarcerated Person"
+        },
+        "trialAttorney": {
+          "name": "Michael Rodriguez",
+          "address": "Public Defender's Office, Riverside",
+          "phone": "(951) 555-0100",
+          "caseNumber": "RIF2000345",
+          "appointedOrRetained": "Appointed"
+        },
+        "appellateAttorney": {
+          "name": "Jennifer Walsh",
+          "address": "State Appellate Project",
+          "phone": "(916) 555-0200",
+          "caseNumbers": "E078542",
+          "courtLevel": "Fourth District Court of Appeal"
+        },
+        "otherLegalRepresentation": []
+      },
+      "newEvidence": [
+        "Recent completion of Anger Management Program",
+        "Letters of support from family members",
+        "Documentation of sobriety maintenance"
+      ],
+      "codefendants": "None",
+      "physicalDescription": {
+        "height": "5'10\"",
+        "weight": "175 lbs",
+        "race": "Hispanic",
+        "build": "Medium",
+        "distinguishingMarks": "Tattoo on left forearm"
+      },
+      "victimInfo": {
+        "name": "Maria Santos",
+        "relationship": "Acquaintance/Dating partner (5 months)"
+      },
+      "prisonRecord": {
+        "conduct": "Recent disciplinary issues noted by board including fights and rule violations",
+        "programming": "Limited programming completed; GOGI and AVP recommended for completion",
+        "support": "Family support available, employment opportunities identified upon release"
+      }
+    },
+    "summary_type": "parole_hearing_summary"
+  },
+  {
+    "id": 2,
+    "success": true,
+    "filename": "parole_hearing_thompson_2024.pdf",
+    "file_size": 98720,
+    "extracted_text_length": 22100,
+    "markdown_summary": "# Parole Hearing Summary - Robert Thompson\n\n## Case Information\n- **Inmate**: Robert Thompson - (Page 1, Line 6)\n- **CDCR Number**: BC5731 - (Page 1, Line 7)\n- **Hearing Date**: September 15, 2024 - (Page 1, Lines 2-3)\n\n## Offense Context\n- **Crime**: Armed robbery - \"first-degree robbery with firearm enhancement\" (Page 1, Line 12)\n- **Sentence**: \"25 years to life under Three Strikes law\" - (Page 1, Lines 13-14)\n- **Circumstances**: Commercial robbery of convenience store with loaded firearm\n- **Victim**: Store clerk, no physical injuries sustained\n\n## Programming\n- **Completed**: \n  - Narcotics Anonymous (NA) - 2 years - (Page 3, Line 45)\n  - Vocational training in auto mechanics - (Page 3, Line 52)\n  - Victim Impact classes - (Page 3, Line 58)\n- **Recommended**: Continue addiction counseling and maintain programming\n\n## Parole Factors Cited\n- **Suitability Factors**:\n  - \"Excellent disciplinary record for past 8 years\" - (Commissioner Davis, Page 4, Line 78)\n  - \"Genuine remorse and insight into criminal behavior\" - (Commissioner Davis, Page 4, Line 82)\n  - Strong family and community support system\n- **Classification Score**: \"32 points\" - (Robert Thompson, Page 2, Line 23)\n- **Recommendations**: Grant parole with conditions - (Page 5, Lines 95-96)\n\n## Claim-of-Innocence Evidence\n- No innocence claims made\n- Full acceptance of responsibility for actions\n- \"I take full responsibility for my actions that night\" - (Robert Thompson, Page 4, Line 88)\n\n## Contradictions\n- None noted between accounts\n- Consistent narrative maintained throughout hearing",
+    "demographics": {
+      "clientInfo": {
+        "name": "Robert Thompson",
+        "cdcrNumber": "BC5731",
+        "dateOfBirth": "July 8, 1972",
+        "contactInfo": "c/o California State Prison, Corcoran"
+      },
+      "introduction": {
+        "shortSummary": "Parole hearing for Robert Thompson serving 25 years to life under Three Strikes law for armed robbery. Demonstrated significant rehabilitation and programming completion with board recommending parole grant."
+      },
+      "evidenceUsedToConvict": [
+        "Store surveillance video showing robbery",
+        "Victim identification of defendant",
+        "Recovery of loaded firearm from defendant's vehicle",
+        "Fingerprint evidence on cash register",
+        "Defendant's confession during police interview"
+      ],
+      "potentialTheory": "Desperate robbery attempt motivated by drug addiction and financial pressures, using loaded firearm to intimidate store clerk during late-night commercial robbery",
+      "convictionInfo": {
+        "dateOfCrime": "November 3, 2003",
+        "locationOfCrime": "Los Angeles County, CA",
+        "dateOfArrest": "November 4, 2003",
+        "charges": "First-degree robbery with firearm enhancement",
+        "dateOfConviction": "June 18, 2004",
+        "sentenceLength": "25 years to life (Three Strikes)",
+        "county": "Los Angeles County",
+        "trialOrPlea": "Plea Agreement"
+      },
+      "appealInfo": {
+        "directAppealFiled": "No",
+        "appellateCourtCaseNumber": "",
+        "dateDecided": "",
+        "result": "",
+        "habenasFilings": ["Habeas petition filed 2018 challenging Three Strikes sentence - Denied"]
+      },
+      "attorneyInfo": {
+        "currentAttorneyForIncarceratedPerson": {
+          "name": "Marcus Johnson",
+          "title": "Attorney",
+          "firm": "Johnson & Associates",
+          "address": "1200 Wilshire Blvd, Los Angeles, CA 90017",
+          "phone": "(213) 555-0456",
+          "email": "mjohnson@johnsonlaw.com",
+          "presentAtHearing": true,
+          "representationContext": "Legal Counsel"
+        },
+        "trialAttorney": {
+          "name": "Lisa Park",
+          "address": "Public Defender's Office, Los Angeles",
+          "phone": "(213) 555-0300",
+          "caseNumber": "BA287654",
+          "appointedOrRetained": "Appointed"
+        },
+        "appellateAttorney": {
+          "name": "",
+          "address": "",
+          "phone": "",
+          "caseNumbers": "",
+          "courtLevel": ""
+        },
+        "otherLegalRepresentation": [
+          {
+            "name": "David Kim",
+            "role": "Habeas counsel",
+            "caseNumber": "HC2018-456"
+          }
+        ]
+      },
+      "newEvidence": [
+        "8 years of clean disciplinary record",
+        "Completion of multiple rehabilitation programs",
+        "Employment offer from local auto repair shop",
+        "Strong family support and housing plan"
+      ],
+      "codefendants": "None",
+      "physicalDescription": {
+        "height": "6'1\"",
+        "weight": "185 lbs",
+        "race": "African American",
+        "build": "Medium",
+        "distinguishingMarks": "Scar on right hand from workplace accident"
+      },
+      "victimInfo": {
+        "name": "Ahmed Hassan",
+        "relationship": "Store clerk (victim of robbery)"
+      },
+      "prisonRecord": {
+        "conduct": "Excellent disciplinary record for past 8 years with no serious rule violations",
+        "programming": "Completed NA program, vocational auto mechanics training, victim impact classes, and anger management",
+        "support": "Strong family support with housing and employment arranged upon release"
+      }
+    },
+    "summary_type": "parole_hearing_summary"
+  },
+  {
+    "id": 3,
+    "success": true,
+    "filename": "parole_hearing_williams_2024.pdf",
+    "file_size": 156890,
+    "extracted_text_length": 34200,
+    "markdown_summary": "# Parole Hearing Summary - Angela Williams\n\n## Case Information\n- **Inmate**: Angela Williams - (Page 1, Line 5)\n- **CDCR Number**: W89432 - (Page 1, Line 6)\n- **Hearing Date**: November 2, 2024 - (Page 1, Lines 1-2)\n\n## Offense Context\n- **Crime**: Voluntary manslaughter - \"voluntary manslaughter with personal use of knife\" (Page 2, Line 18)\n- **Sentence**: \"11 years with enhancements\" - (Page 2, Lines 19-20)\n- **Circumstances**: Self-defense claim in domestic violence situation\n- **Victim**: Estranged husband with history of domestic violence\n\n## Programming\n- **Completed**: \n  - Battered Women's Support Group - 18 months - (Page 4, Line 67)\n  - Substance Abuse Program - completed - (Page 4, Line 72)\n  - College courses through prison education program - (Page 4, Line 78)\n  - Victim Impact class - (Page 4, Line 81)\n- **Recommended**: Continue therapy and maintain sobriety\n\n## Parole Factors Cited\n- **Suitability Factors**:\n  - \"Exemplary behavior and programming participation\" - (Commissioner Martinez, Page 5, Line 92)\n  - \"Clear evidence of rehabilitation and personal growth\" - (Commissioner Martinez, Page 5, Line 97)\n  - \"Understanding of domestic violence cycle\" - (Commissioner Lee, Page 5, Line 103)\n- **Classification Score**: \"28 points\" - (Angela Williams, Page 2, Line 25)\n- **Recommendations**: Grant parole with domestic violence counseling condition\n\n## Claim-of-Innocence Evidence\n- Self-defense claim supported by evidence of prior domestic violence\n- \"I was defending myself after years of abuse\" - (Angela Williams, Page 6, Line 115)\n- Medical records documenting previous injuries from domestic violence\n- Police reports of prior domestic violence calls to residence\n\n## Contradictions\n- Prosecution argued premeditation vs. defense claim of immediate self-defense\n- \"The evidence shows this was a planned attack\" vs. \"I feared for my life in that moment\" - (Page 6, Lines 120-125)",
+    "demographics": {
+      "clientInfo": {
+        "name": "Angela Williams",
+        "cdcrNumber": "W89432",
+        "dateOfBirth": "December 2, 1979",
+        "contactInfo": "c/o Central California Women's Facility"
+      },
+      "introduction": {
+        "shortSummary": "Parole hearing for Angela Williams serving 11 years for voluntary manslaughter in domestic violence context. Demonstrated exceptional rehabilitation with board granting parole based on self-defense circumstances and programming completion."
+      },
+      "evidenceUsedToConvict": [
+        "Defendant's statements to police at scene",
+        "Medical examiner testimony regarding victim's injuries",
+        "Kitchen knife recovered from scene",
+        "Witness testimony from neighbors about argument",
+        "Defendant's 911 call reporting the incident"
+      ],
+      "potentialTheory": "Fatal stabbing of abusive husband during domestic violence incident where defendant claims self-defense after years of documented abuse and escalating threats",
+      "convictionInfo": {
+        "dateOfCrime": "January 15, 2018",
+        "locationOfCrime": "Fresno County, CA",
+        "dateOfArrest": "January 15, 2018",
+        "charges": "Voluntary manslaughter with personal use of deadly weapon",
+        "dateOfConviction": "September 12, 2019",
+        "sentenceLength": "11 years with enhancements",
+        "county": "Fresno County",
+        "trialOrPlea": "Jury Trial"
+      },
+      "appealInfo": {
+        "directAppealFiled": "Yes",
+        "appellateCourtCaseNumber": "F081293",
+        "dateDecided": "August 20, 2021",
+        "result": "Sentence reduced by 2 years due to domestic violence circumstances",
+        "habenasFilings": []
+      },
+      "attorneyInfo": {
+        "currentAttorneyForIncarceratedPerson": {
+          "name": "Dr. Patricia Gonzalez, Esq.",
+          "title": "Attorney",
+          "firm": "Women's Legal Defense Fund",
+          "address": "850 Bush Street, San Francisco, CA 94108",
+          "phone": "(415) 555-0789",
+          "email": "p.gonzalez@wldf.org",
+          "presentAtHearing": true,
+          "representationContext": "Attorney for Incarcerated Person - Domestic Violence Specialist"
+        },
+        "trialAttorney": {
+          "name": "Thomas Mitchell",
+          "address": "Mitchell Law Offices, Fresno",
+          "phone": "(559) 555-0400",
+          "caseNumber": "F18CR-2456",
+          "appointedOrRetained": "Retained"
+        },
+        "appellateAttorney": {
+          "name": "Rebecca Stone",
+          "address": "California Appellate Project",
+          "phone": "(415) 555-0500",
+          "caseNumbers": "F081293",
+          "courtLevel": "Fifth District Court of Appeal"
+        },
+        "otherLegalRepresentation": [
+          {
+            "name": "Maria Santos",
+            "role": "Domestic Violence Advocate",
+            "organization": "Fresno County DV Services"
+          }
+        ]
+      },
+      "newEvidence": [
+        "Additional medical records documenting pattern of abuse",
+        "Expert testimony on Battered Woman Syndrome",
+        "Character letters from prison staff and programs",
+        "Psychological evaluation showing trauma recovery",
+        "Employment offer from nonprofit domestic violence organization"
+      ],
+      "codefendants": "None",
+      "physicalDescription": {
+        "height": "5'4\"",
+        "weight": "140 lbs",
+        "race": "Latina",
+        "build": "Petite",
+        "distinguishingMarks": "Scars on arms consistent with defensive wounds"
+      },
+      "victimInfo": {
+        "name": "James Williams",
+        "relationship": "Estranged husband (married 8 years, separated 6 months prior to incident)"
+      },
+      "prisonRecord": {
+        "conduct": "Exemplary disciplinary record with no rule violations and multiple commendations",
+        "programming": "Completed battered women's support group, substance abuse program, college courses, victim impact class, and peer counseling training",
+        "support": "Strong support from domestic violence advocacy community and family, with housing and employment arranged"
+      }
+    },
+    "summary_type": "parole_hearing_summary"
+  }
+]
