@@ -150,10 +150,10 @@ function Dashboard() {
           <Typography variant="subtitle1" color="#6b7280" sx={{ fontWeight: 500, textAlign: 'left', mb: 2 }}>
             Comprehensive legal document summary
           </Typography>
-          <Typography variant="h6" fontWeight={700} sx={{ color: '#1a1a1a', textAlign: 'left', mb: 2 }}>
+          <Typography variant="h6" fontWeight={700} sx={{ color: '#1a1a1a', textAlign: 'left', mb: 1.5 }}>
             Client Information
           </Typography>
-          <Box sx={{ display: 'flex', gap: 6, mt: 2 }}>
+          <Box sx={{ display: 'flex', gap: 6, mt: 2, mb: 3 }}>
             <Box>
               <Typography variant="subtitle2" fontWeight={600} color="#6b7280" sx={{ mb: 0.5, textAlign: 'left' }}>
                 Client's Name & CDCR No.
