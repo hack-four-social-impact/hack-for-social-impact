@@ -163,7 +163,7 @@ curl -X POST "http://localhost:8000/pdf/parole-summary" \
 
 **Features**:
 
-- ✅ **Line Number Citations**: Every fact includes specific line references
+- ✅ **Page & Line Number Citations**: Every fact includes specific page and line references
 - ✅ **Structured Analysis**: Covers offense context, programming, parole factors, contradictions
 - ✅ **Direct Quotes**: Includes actual quotes from commissioners and participants
 - ✅ **Legal Format**: Professional format suitable for legal review
@@ -392,20 +392,20 @@ pip install PyPDF2 python-multipart python-dotenv
 
 ### Citation System
 
-The AI generates precise citations for all facts and quotes:
+The AI generates precise citations for all facts and quotes with both page and line numbers:
 
-- **Direct Quotes**: `"Quote text" - (Speaker Name, Line X)`
-- **Factual References**: `Information found at Line X-Y`
-- **Multi-line References**: `Lines X-Y`
+- **Direct Quotes**: `"Quote text" - (Speaker Name, Page X, Line Y)`
+- **Factual References**: `Information found at Page X, Lines Y-Z`
+- **Multi-line References**: `Page X, Lines Y-Z`
 
 Example output:
 
 ```markdown
 ## Parole Factors Cited
 
-- "You can't get any more 115s" - (Commissioner Ruff, Line 245)
-- Classification score: "68 points" - (Emmanuel Young, Line 4)
-- Crime details found at Lines 8-12
+- "You can't get any more 115s" - (Commissioner Ruff, Page 5, Line 245)
+- Classification score: "68 points" - (Emmanuel Young, Page 1, Line 4)
+- Crime details found at Page 2, Lines 8-12
 ```
 
 ## 🏗️ Project Structure

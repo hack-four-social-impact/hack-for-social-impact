@@ -11,12 +11,28 @@ class PDFService:
 
     @staticmethod
     def extract_text_from_pdf(pdf_file: bytes) -> str:
-        """Extract text from PDF file bytes."""
+        """Extract text from PDF file bytes with page numbers."""
         try:
             pdf_reader = PyPDF2.PdfReader(io.BytesIO(pdf_file))
             text = ""
-            for page in pdf_reader.pages:
-                text += page.extract_text() + "\n"
+
+            for page_num, page in enumerate(pdf_reader.pages, start=1):
+                page_text = page.extract_text()
+                # Add page marker at the beginning of each page
+                text += f"\n[PAGE {page_num}]\n"
+
+                # Add line numbers to each line within the page
+                lines = page_text.split("\n")
+                line_counter = 1
+                for line in lines:
+                    if line.strip():  # Only add line numbers to non-empty lines
+                        text += f"[Line {line_counter}] {line}\n"
+                        line_counter += 1
+                    else:
+                        text += "\n"
+
+                text += f"\n[END PAGE {page_num}]\n"
+
             return text.strip()
         except Exception as e:
             raise HTTPException(status_code=400, detail=f"Error reading PDF: {str(e)}")
@@ -83,52 +99,52 @@ class GeminiService:
         mock_summary = f"""# Parole Hearing Summary
 
 ## Case Information
-- **Inmate**: {inmate_name} - (Line 8)
-- **CDCR Number**: {cdcr_number} - (Line 9)  
-- **Hearing Date**: {hearing_date} - (Lines 4-5)
+- **Inmate**: {inmate_name} - (Page 1, Line 8)
+- **CDCR Number**: {cdcr_number} - (Page 1, Line 9)  
+- **Hearing Date**: {hearing_date} - (Page 1, Lines 4-5)
 
 ## Offense Context
-- **Crime**: {crime} - "controlling offense of second-degree murder" (Line 9)
-- **Sentence**: "15 years of life with enhancements for the use of a deadly weapon" - (Lines 10-11)
+- **Crime**: {crime} - "controlling offense of second-degree murder" (Page 1, Line 9)
+- **Sentence**: "15 years of life with enhancements for the use of a deadly weapon" - (Page 1, Lines 10-11)
 - **Circumstances**: Domestic violence case involving methamphetamine use and jealousy accusations
-- **Victim**: Female acquaintance known for approximately 5 months - "victim who you knew for about five months" (Line 11)
+- **Victim**: Female acquaintance known for approximately 5 months - "victim who you knew for about five months" (Page 1, Line 11)
 
 ## Programming
 - **Completed**: Limited programming noted
 - **Recommended**: 
-  - "GOGI, boss of my own brain" - (Commissioner Ruff, Line 17)
-  - "Alternatives to Violence Program (AVP)" - (Commissioner Weilbacher, Lines 20-21)  
+  - "GOGI, boss of my own brain" - (Commissioner Ruff, Page 2, Line 17)
+  - "Alternatives to Violence Program (AVP)" - (Commissioner Weilbacher, Page 2, Lines 20-21)  
   - Domestic violence education programs
-  - "create relapse prevention plans" - (Commissioner Weilbacher, Line 23)
+  - "create relapse prevention plans" - (Commissioner Weilbacher, Page 2, Line 23)
 
 ## Parole Factors Cited
 - **Unsuitability Factors**:
-  - "You can't get any more 115s" - (Commissioner Ruff, Line 1)
-  - "You've been in quite a few fights this year" - (Commissioner Ruff, Line 2-3)
+  - "You can't get any more 115s" - (Commissioner Ruff, Page 1, Line 1)
+  - "You've been in quite a few fights this year" - (Commissioner Ruff, Page 1, Lines 2-3)
   - Lack of sustained prosocial behavior
-  - "It makes your version look like you're minimizing" - (Commissioner Ruff, Line 12)
-- **Classification Score**: "68 points" - (Emmanuel Young, Line 4)
-- **Recommendations**: 3-year denial with stipulation - (Lines 20-21)
+  - "It makes your version look like you're minimizing" - (Commissioner Ruff, Page 1, Line 12)
+- **Classification Score**: "68 points" - (Emmanuel Young, Page 1, Line 4)
+- **Recommendations**: 3-year denial with stipulation - (Page 2, Lines 20-21)
 
 ## Claim-of-Innocence Evidence
 - No specific innocence claims noted
-- "my initial life term was vacated" - (Emmanuel Young, Line 4-5)
-- "I was never brought to Board in 2022" - (Emmanuel Young, Line 7)
+- "my initial life term was vacated" - (Emmanuel Young, Page 1, Lines 4-5)
+- "I was never brought to Board in 2022" - (Emmanuel Young, Page 1, Line 7)
 - Questions about court order timing and sentence modifications
 
 ## Contradictions
-- **Victim vs. Offender Account**: "when I read your version of what happened, and I read the version from the victim...her version is significantly different than yours" - (Commissioner Ruff, Lines 8-12)
-- **Violence Minimization**: "she was beat to death basically" vs inmate's account - (Commissioner Ruff, Line 13)
-- **Witness Reports**: "these witnesses who are in these reports, they report that" - (Commissioner Ruff, Line 17)
+- **Victim vs. Offender Account**: "when I read your version of what happened, and I read the version from the victim...her version is significantly different than yours" - (Commissioner Ruff, Page 1, Lines 8-12)
+- **Violence Minimization**: "she was beat to death basically" vs inmate's account - (Commissioner Ruff, Page 1, Line 13)
+- **Witness Reports**: "these witnesses who are in these reports, they report that" - (Commissioner Ruff, Page 2, Line 17)
 
 ## Board Recommendations
-- "remain disciplinary free" - (Commissioner Ruff, Line 23)
-- "get engaged in programming, not just to get the certificate, but to actually learn from it" - (Commissioner Ruff, Lines 24-25)
+- "remain disciplinary free" - (Commissioner Ruff, Page 2, Line 23)
+- "get engaged in programming, not just to get the certificate, but to actually learn from it" - (Commissioner Ruff, Page 2, Lines 24-25)
 - Develop coping skills for anger management
 - Address domestic violence patterns
 - Consider facility transfer for better programming environment
 
-*Note: This is a computer-generated summary with line number citations. Next hearing scheduled for 2027.*"""
+*Note: This is a computer-generated summary with page and line number citations. Next hearing scheduled for 2027.*"""
 
         return mock_summary
 
