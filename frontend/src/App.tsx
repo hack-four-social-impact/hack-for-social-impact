@@ -10,14 +10,14 @@ function App() {
 
   const navButtonStyle = (page: Page) => ({
     padding: '10px 20px',
-    fontSize: '14px',
-    fontWeight: '500',
-    color: currentPage === page ? '#ffffff' : '#4b5563',
-    backgroundColor: currentPage === page ? '#2563eb' : '#f3f4f6',
-    border: 'none',
-    borderRadius: '6px',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 'var(--font-weight-medium)',
+    color: currentPage === page ? 'var(--white)' : 'var(--text-gray-dark)',
+    backgroundColor: currentPage === page ? 'var(--primary-blue)' : 'var(--neutral-border)',
+    border: currentPage === page ? 'none' : '2px solid var(--black)',
+    borderRadius: 'var(--radius-md)',
     cursor: 'pointer',
-    transition: 'all 0.2s',
+    transition: 'all var(--transition-fast)',
   })
 
   return (
@@ -25,15 +25,15 @@ function App() {
       {/* Navigation Bar */}
       <nav
         style={{
-          backgroundColor: '#ffffff',
-          borderBottom: '1px solid #e5e7eb',
-          padding: '16px 24px',
+          backgroundColor: 'var(--white)',
+          borderBottom: '1px solid var(--neutral-border)',
+          padding: 'var(--spacing-md) var(--spacing-xl)',
           display: 'flex',
-          gap: '12px',
+          gap: 'var(--spacing-sm)',
           alignItems: 'center',
         }}
       >
-        <h2 style={{ margin: 0, marginRight: '24px', fontSize: '18px' }}>
+        <h2 style={{ margin: 0, marginRight: 'var(--spacing-xl)', fontSize: '18px' }}>
           Test Pages
         </h2>
         <button
@@ -41,12 +41,12 @@ function App() {
           style={navButtonStyle('modal')}
           onMouseEnter={(e) => {
             if (currentPage !== 'modal') {
-              e.currentTarget.style.backgroundColor = '#e5e7eb'
+              e.currentTarget.style.backgroundColor = 'var(--nav-inactive)'
             }
           }}
           onMouseLeave={(e) => {
             if (currentPage !== 'modal') {
-              e.currentTarget.style.backgroundColor = '#f3f4f6'
+              e.currentTarget.style.backgroundColor = 'var(--neutral-border)'
             }
           }}
         >
@@ -57,12 +57,12 @@ function App() {
           style={navButtonStyle('api')}
           onMouseEnter={(e) => {
             if (currentPage !== 'api') {
-              e.currentTarget.style.backgroundColor = '#e5e7eb'
+              e.currentTarget.style.backgroundColor = 'var(--nav-inactive)'
             }
           }}
           onMouseLeave={(e) => {
             if (currentPage !== 'api') {
-              e.currentTarget.style.backgroundColor = '#f3f4f6'
+              e.currentTarget.style.backgroundColor = 'var(--neutral-border)'
             }
           }}
         >

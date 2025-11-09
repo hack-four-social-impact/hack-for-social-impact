@@ -11,6 +11,63 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Color Variables */
+  --primary-blue: #2563eb;
+  --primary-blue-hover: #1d4ed8;
+  --text-gray: #6b7280;
+  --text-gray-dark: #4b5563;
+  --nav-inactive: #bababaff;
+
+  /* Success colors */
+  --success-bg: #f0fdf4;
+  --success-bg-alt: #dcfce7;
+  --success-border: #86efac;
+  --success-text: #15803d;
+  --success-heading: #166534;
+
+  /* Error colors */
+  --error-bg: #fee2e2;
+  --error-text: #991b1b;
+  --error-heading: #dc2626;
+
+  /* Info colors */
+  --info-bg: #e0f2fe;
+
+  /* Neutral colors */
+  --neutral-bg: #f9fafb;
+  --neutral-bg-medium: #e5e7eb;
+  --neutral-bg-light: #f3f4f6;
+  --neutral-border: #e5e7eb;
+  --neutral-border-dark: #d1d5db;
+  --neutral-border-light: #ccc;
+  --white: #ffffff;
+  --black: #000000;
+
+  /* Spacing */
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 20px;
+  --spacing-xl: 24px;
+  --spacing-2xl: 32px;
+  --spacing-3xl: 40px;
+
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* Font sizes */
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+
+  /* Font weights */
+  --font-weight-medium: 500;
+
+  /* Transitions */
+  --transition-fast: 0.2s;
+  --transition-normal: 0.25s;
 }
 
 a {
@@ -52,6 +109,37 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Scrollbar Styling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-gray) var(--neutral-bg-light);
+}
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+*::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--neutral-bg-light);
+  border-radius: var(--radius-sm);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--text-gray);
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--neutral-bg-light);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--text-gray-dark);
+}
+
+*::-webkit-scrollbar-corner {
+  background: var(--neutral-bg-light);
 }
 
 @media (prefers-color-scheme: light) {

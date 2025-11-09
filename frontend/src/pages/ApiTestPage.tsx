@@ -30,16 +30,16 @@ function ApiTestPage() {
   }
 
   return (
-    <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
+    <div style={{ padding: 'var(--spacing-lg)', maxWidth: '800px', margin: '0 auto' }}>
       <h2>API Service Layer Test</h2>
 
-      <div style={{ marginBottom: '20px' }}>
+      <div style={{ marginBottom: 'var(--spacing-lg)' }}>
         <label
           htmlFor="test-file"
           style={{
             display: 'block',
-            marginBottom: '8px',
-            fontWeight: '500',
+            marginBottom: 'var(--spacing-xs)',
+            fontWeight: 'var(--font-weight-medium)',
           }}
         >
           Select PDF to test API:
@@ -51,34 +51,34 @@ function ApiTestPage() {
           onChange={handleTestUpload}
           disabled={loading}
           style={{
-            padding: '8px',
-            border: '1px solid #ccc',
-            borderRadius: '4px',
+            padding: 'var(--spacing-xs)',
+            border: '1px solid var(--neutral-border-light)',
+            borderRadius: 'var(--radius-sm)',
           }}
         />
       </div>
 
       {loading && (
-        <div style={{ padding: '16px', backgroundColor: '#e0f2fe', borderRadius: '4px' }}>
+        <div style={{ padding: 'var(--spacing-md)', backgroundColor: 'var(--info-bg)', borderRadius: 'var(--radius-sm)' }}>
           Loading... Processing PDF
         </div>
       )}
 
       {error && (
-        <div style={{ padding: '16px', backgroundColor: '#fee2e2', borderRadius: '4px', marginTop: '16px' }}>
-          <h3 style={{ margin: '0 0 8px 0', color: '#dc2626' }}>Error</h3>
-          <pre style={{ margin: 0, color: '#991b1b', whiteSpace: 'pre-wrap' }}>{error}</pre>
+        <div style={{ padding: 'var(--spacing-md)', backgroundColor: 'var(--error-bg)', borderRadius: 'var(--radius-sm)', marginTop: 'var(--spacing-md)' }}>
+          <h3 style={{ margin: '0 0 var(--spacing-xs) 0', color: 'var(--error-heading)' }}>Error</h3>
+          <pre style={{ margin: 0, color: 'var(--error-text)', whiteSpace: 'pre-wrap' }}>{error}</pre>
         </div>
       )}
 
       {response && (
-        <div style={{ marginTop: '16px' }}>
-          <div style={{ padding: '16px', backgroundColor: '#dcfce7', borderRadius: '4px', marginBottom: '16px' }}>
-            <h3 style={{ margin: '0 0 8px 0', color: '#166534' }}>Success!</h3>
-            <p style={{ margin: 0, color: '#15803d' }}>File processed successfully</p>
+        <div style={{ marginTop: 'var(--spacing-md)' }}>
+          <div style={{ padding: 'var(--spacing-md)', backgroundColor: 'var(--success-bg-alt)', borderRadius: 'var(--radius-sm)', marginBottom: 'var(--spacing-md)' }}>
+            <h3 style={{ margin: '0 0 var(--spacing-xs) 0', color: 'var(--success-heading)' }}>Success!</h3>
+            <p style={{ margin: 0, color: 'var(--success-text)' }}>File processed successfully</p>
           </div>
 
-          <div style={{ padding: '16px', backgroundColor: '#f9fafb', borderRadius: '4px', marginBottom: '16px' }}>
+          <div style={{ padding: 'var(--spacing-md)', backgroundColor: 'var(--neutral-bg-medium)', borderRadius: 'var(--radius-sm)', marginBottom: 'var(--spacing-md)', border: '1px solid var(--neutral-border-dark)' }}>
             <h3 style={{ marginTop: 0 }}>Response Metadata:</h3>
             <ul style={{ listStyle: 'none', padding: 0 }}>
               <li><strong>Filename:</strong> {response.filename}</li>
@@ -88,15 +88,15 @@ function ApiTestPage() {
             </ul>
           </div>
 
-          <div style={{ padding: '16px', backgroundColor: '#f9fafb', borderRadius: '4px' }}>
+          <div style={{ padding: 'var(--spacing-md)', backgroundColor: 'var(--neutral-bg-medium)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--neutral-border-dark)' }}>
             <h3 style={{ marginTop: 0 }}>Markdown Summary:</h3>
             <pre style={{
               whiteSpace: 'pre-wrap',
               wordWrap: 'break-word',
-              backgroundColor: '#ffffff',
-              padding: '12px',
-              borderRadius: '4px',
-              border: '1px solid #e5e7eb',
+              backgroundColor: 'var(--white)',
+              padding: 'var(--spacing-sm)',
+              borderRadius: 'var(--radius-sm)',
+              border: '1px solid var(--neutral-border-dark)',
               maxHeight: '400px',
               overflow: 'auto',
             }}>

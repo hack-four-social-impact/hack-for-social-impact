@@ -11,30 +11,30 @@ function ModalTestPage() {
   }
 
   return (
-    <div style={{ padding: '40px', textAlign: 'center' }}>
+    <div style={{ padding: 'var(--spacing-3xl)', textAlign: 'center' }}>
       <h1>Modal Test Page</h1>
-      <p style={{ marginBottom: '32px', color: '#6b7280' }}>
+      <p style={{ marginBottom: 'var(--spacing-2xl)', color: 'var(--text-gray)' }}>
         Test the PDF upload modal component
       </p>
 
       <button
         onClick={() => setIsModalOpen(true)}
         style={{
-          padding: '12px 24px',
-          fontSize: '16px',
-          fontWeight: '500',
-          color: '#ffffff',
-          backgroundColor: '#2563eb',
+          padding: 'var(--spacing-sm) var(--spacing-xl)',
+          fontSize: 'var(--font-size-md)',
+          fontWeight: 'var(--font-weight-medium)',
+          color: 'var(--white)',
+          backgroundColor: 'var(--primary-blue)',
           border: 'none',
-          borderRadius: '8px',
+          borderRadius: 'var(--radius-lg)',
           cursor: 'pointer',
-          transition: 'background-color 0.2s',
+          transition: 'background-color var(--transition-fast)',
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = '#1d4ed8'
+          e.currentTarget.style.backgroundColor = 'var(--primary-blue-hover)'
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = '#2563eb'
+          e.currentTarget.style.backgroundColor = 'var(--primary-blue)'
         }}
       >
         Open Upload Modal
@@ -43,25 +43,25 @@ function ModalTestPage() {
       {uploadedFile && (
         <div
           style={{
-            marginTop: '32px',
-            padding: '16px',
-            backgroundColor: '#f0fdf4',
-            border: '1px solid #86efac',
-            borderRadius: '8px',
+            marginTop: 'var(--spacing-2xl)',
+            padding: 'var(--spacing-md)',
+            backgroundColor: 'var(--success-bg)',
+            border: '1px solid var(--success-border)',
+            borderRadius: 'var(--radius-lg)',
             maxWidth: '500px',
-            margin: '32px auto 0',
+            margin: 'var(--spacing-2xl) auto 0',
           }}
         >
-          <h3 style={{ margin: '0 0 8px 0', color: '#166534' }}>
+          <h3 style={{ margin: '0 0 var(--spacing-xs) 0', color: 'var(--success-heading)' }}>
             File Selected in Modal
           </h3>
-          <p style={{ margin: 0, color: '#15803d' }}>
+          <p style={{ margin: 0, color: 'var(--success-text)' }}>
             <strong>Name:</strong> {uploadedFile.name}
           </p>
-          <p style={{ margin: 0, color: '#15803d' }}>
+          <p style={{ margin: 0, color: 'var(--success-text)' }}>
             <strong>Size:</strong> {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
           </p>
-          <p style={{ margin: 0, color: '#15803d' }}>
+          <p style={{ margin: 0, color: 'var(--success-text)' }}>
             <strong>Type:</strong> {uploadedFile.type}
           </p>
         </div>
