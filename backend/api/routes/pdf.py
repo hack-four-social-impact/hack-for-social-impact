@@ -1,3 +1,4 @@
+import json
 from typing import Optional
 from fastapi import APIRouter, File, UploadFile, HTTPException, Form
 
@@ -201,85 +202,52 @@ async def analyze_innocence_claims(file: UploadFile = File(...)):
     """
 
     innocence_analysis_prompt = """
-    You are a legal analyst specializing in wrongful conviction cases. Analyze this document for potential innocence indicators and provide a structured analysis focused on detecting possible wrongful conviction evidence.
+    You are analyzing a **parole hearing transcript** to evaluate whether the speaker may be **maintaining actual innocence** rather than admitting guilt or minimizing responsibility.
 
-    # Innocence Detection Analysis
+    Analyze the transcript and return your findings as a JSON object with the following structure:
 
-    ## Executive Summary
-    Provide a 2-3 sentence assessment of the overall innocence claim strength based on the document.
+    {
+      "findings": [
+        {
+          "quote": "Exact quote from the document",
+          "speaker": "Name of the person who said it",
+          "page": 1,
+          "line": 15,
+          "category": "category_name",
+          "significance": "Brief explanation of why this is significant for innocence analysis"
+        }
+      ],
+      "summary": {
+        "total_findings": 0,
+        "innocence_indicators": 0,
+        "responsibility_pressure": 0,
+        "consistency_issues": 0,
+        "external_evidence": 0,
+        "overall_assessment": "innocence_claim | guilt_minimization | inconclusive"
+      }
+    }
 
-    ## Innocence Claim Indicators
-    Look for and categorize the following types of evidence:
+    **Categories to use:**
+    - "direct_innocence_claim" - Direct denials of committing the crime or statements of non-participation
+    - "consistency_statement" - Statements that show consistency or inconsistency in the person's account
+    - "minimization_vs_innocence" - Statements that help distinguish between guilt minimization and innocence claims
+    - "responsibility_pressure" - Evidence of board pressure to admit guilt or accept responsibility
+    - "responsibility_response" - How the person responds to pressure to accept responsibility
+    - "external_evidence" - References to alibi, recanted testimony, weak evidence, coerced confessions
+    - "behavioral_clarity" - Direct, factual answers vs evasive or contradictory responses
+    - "procedural_issue" - Issues with legal process, representation, or conviction validity
 
-    ### Direct Innocence Claims
-    - Explicit statements of innocence by the defendant
-    - Consistent maintenance of innocence over time
-    - Specific denials of key elements of the crime
-    - Claims of being elsewhere at the time of the crime (alibi)
+    **Instructions:**
+    1. Look for direct quotes that fit into these categories
+    2. Extract the exact text of significant statements
+    3. Identify the speaker (Commissioner name, defendant name, attorney, etc.)
+    4. Find the precise page and line numbers using the [PAGE X] and [Line Y] markers
+    5. Classify each quote into the appropriate category
+    6. Provide a brief explanation of why each quote is significant
 
-    ### Procedural Issues & Constitutional Violations
-    - Inadequate legal representation claims
-    - Prosecutorial misconduct allegations
-    - Evidence suppression or Brady violations
-    - Coerced confessions or interrogation issues
-    - Jury misconduct or bias
-    - Judicial errors or bias
+    **CRITICAL:** Only include actual quotes that exist in the document. Do not paraphrase or summarize - use exact text. Ensure page and line numbers are accurate based on the document markers.
 
-    ### Evidence Inconsistencies
-    - Contradictory witness statements
-    - Physical evidence that doesn't match the conviction narrative
-    - DNA evidence issues or absence
-    - Forensic evidence problems or misinterpretation
-    - Timeline inconsistencies
-    - Alternative suspect evidence
-
-    ### Witness Issues
-    - Recantations by prosecution witnesses
-    - Eyewitness identification problems
-    - Incentivized witness testimony concerns
-    - Character witness support for innocence
-
-    ### New Evidence or Developments
-    - Post-conviction DNA testing results
-    - New witness statements
-    - Alternative perpetrator evidence
-    - Technology advances revealing new evidence
-    - Expert testimony challenging prosecution evidence
-
-    ## Red Flags for Wrongful Conviction
-    Identify patterns commonly associated with wrongful convictions:
-    - False confessions (especially from vulnerable populations)
-    - Unreliable eyewitness identification
-    - Perjury or false accusations
-    - Official misconduct
-    - Inadequate legal defense
-    - Forensic evidence misuse
-
-    ## Evidence Strength Assessment
-    For each category found, rate the strength:
-    - **Strong**: Compelling evidence that significantly supports innocence
-    - **Moderate**: Notable concerns that warrant further investigation
-    - **Weak**: Minor inconsistencies or procedural issues
-    - **Inconclusive**: Insufficient information to assess
-
-    ## Recommended Actions
-    Based on the analysis, suggest:
-    - Areas requiring further investigation
-    - Expert consultations needed
-    - Legal motions that might be appropriate
-    - Evidence that should be preserved or tested
-
-    **CRITICAL: Provide precise citations with page and line numbers for ALL findings:**
-    - Direct quotes: "Quote text" - (Speaker/Source, Page X, Line Y)
-    - Evidence references: Found at Page X, Lines Y-Z
-    - Document sections: Referenced at Page X, Lines Y-Z
-
-    **Citation Examples:**
-    - "I didn't do this crime" - (Defendant, Page 3, Line 45)
-    - Alibi evidence mentioned at Page 7, Lines 120-125
-    - Witness recantation at Page 12, Lines 200-210
-
-    Format as professional legal analysis with clear headings, bullet points, and precise citations. Maintain objectivity and focus on factual evidence rather than conclusions.
+    Return ONLY valid JSON - no additional text or formatting.
     """
 
     # Read file content
@@ -296,7 +264,34 @@ async def analyze_innocence_claims(file: UploadFile = File(...)):
             raise HTTPException(status_code=400, detail="No text could be extracted from the PDF")
 
         # Process with Gemini AI using innocence-focused prompt
-        innocence_analysis = gemini_service.process_text_with_ai(extracted_text, innocence_analysis_prompt)
+        innocence_analysis_raw = gemini_service.process_text_with_ai(extracted_text, innocence_analysis_prompt)
+
+        # Try to parse as JSON, handling markdown code blocks
+        try:
+            # Remove markdown code block markers if present
+            clean_json = innocence_analysis_raw.strip()
+            if clean_json.startswith("```json"):
+                clean_json = clean_json[7:]  # Remove ```json
+            if clean_json.endswith("```"):
+                clean_json = clean_json[:-3]  # Remove ```
+            clean_json = clean_json.strip()
+
+            innocence_analysis = json.loads(clean_json)
+        except (json.JSONDecodeError, ValueError):
+            # Fallback to structured format if AI didn't return valid JSON
+            innocence_analysis = {
+                "findings": [],
+                "summary": {
+                    "total_findings": 0,
+                    "innocence_indicators": 0,
+                    "responsibility_pressure": 0,
+                    "consistency_issues": 0,
+                    "external_evidence": 0,
+                    "overall_assessment": "inconclusive",
+                },
+                "raw_analysis": innocence_analysis_raw,
+                "note": "AI returned text format instead of JSON",
+            }
 
         return {
             "success": True,
@@ -304,14 +299,16 @@ async def analyze_innocence_claims(file: UploadFile = File(...)):
             "file_size": len(file_content),
             "extracted_text_length": len(extracted_text),
             "innocence_analysis": innocence_analysis,
-            "analysis_type": "innocence_detection",
-            "focus_areas": [
-                "direct_innocence_claims",
-                "procedural_violations",
-                "evidence_inconsistencies",
-                "witness_issues",
-                "new_evidence",
-                "wrongful_conviction_patterns",
+            "analysis_type": "structured_innocence_detection",
+            "categories": [
+                "direct_innocence_claim",
+                "consistency_statement",
+                "minimization_vs_innocence",
+                "responsibility_pressure",
+                "responsibility_response",
+                "external_evidence",
+                "behavioral_clarity",
+                "procedural_issue",
             ],
         }
 

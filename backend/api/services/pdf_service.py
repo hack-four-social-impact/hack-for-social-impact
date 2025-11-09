@@ -156,6 +156,8 @@ class GeminiService:
 
     def _generate_mock_innocence_analysis(self, text: str) -> str:
         """Generate a mock innocence analysis based on text analysis."""
+        import json
+
         # Extract key information from the text for innocence analysis
         lines = text.split("\n")
 
@@ -163,68 +165,142 @@ class GeminiService:
         innocence_keywords = ["innocent", "didn't do", "not guilty", "wrongfully", "false", "framed"]
         procedural_keywords = ["lawyer", "attorney", "counsel", "miranda", "rights", "coerced"]
         evidence_keywords = ["dna", "fingerprints", "alibi", "witness", "testimony"]
+        responsibility_keywords = ["remorse", "responsibility", "accept", "admit", "sorry"]
 
         has_innocence_claims = any(keyword in text.lower() for keyword in innocence_keywords)
         has_procedural_issues = any(keyword in text.lower() for keyword in procedural_keywords)
         has_evidence_issues = any(keyword in text.lower() for keyword in evidence_keywords)
+        has_responsibility_pressure = any(keyword in text.lower() for keyword in responsibility_keywords)
 
-        mock_analysis = f"""# Innocence Detection Analysis
+        # Generate structured findings based on text analysis
+        findings = []
 
-## Executive Summary
-Analysis reveals {'moderate' if has_innocence_claims else 'limited'} indicators of potential innocence claims with {'significant' if has_procedural_issues else 'minimal'} procedural concerns noted in the document.
+        # Look for specific patterns and quotes in the text
+        for i, line in enumerate(lines):
+            line_text = line.strip()
+            if not line_text or line_text.startswith("[PAGE") or line_text.startswith("[END PAGE"):
+                continue
 
-## Innocence Claim Indicators
+            # Extract page and line numbers from markers
+            page_num = 1
+            line_num = 1
 
-### Direct Innocence Claims
-{'- Explicit denial statements detected in document - (Page 1, Lines 15-20)' if has_innocence_claims else '- No direct innocence claims identified in this document'}
-{'- Consistent maintenance of innocence noted - (Page 2, Lines 45-50)' if has_innocence_claims else ''}
+            # Find page markers in recent lines
+            for j in range(max(0, i - 10), i):
+                if lines[j].startswith("[PAGE "):
+                    try:
+                        page_num = int(lines[j].split()[1].rstrip("]"))
+                    except:
+                        pass
 
-### Procedural Issues & Constitutional Violations
-{'- Potential inadequate representation concerns - (Page 1, Lines 25-30)' if has_procedural_issues else '- No significant procedural violations identified'}
-{'- Questions regarding Miranda rights administration - (Page 3, Lines 80-85)' if 'miranda' in text.lower() else ''}
-{'- Concerns about interrogation methods - (Page 2, Lines 55-60)' if 'coerced' in text.lower() else ''}
+            # Extract line number from current line
+            if line_text.startswith("[Line "):
+                try:
+                    parts = line_text.split("]", 1)
+                    line_num = int(parts[0].split()[1])
+                    actual_text = parts[1].strip() if len(parts) > 1 else ""
+                except:
+                    actual_text = line_text
+            else:
+                actual_text = line_text
 
-### Evidence Inconsistencies
-{'- Witness statement discrepancies noted - (Page 4, Lines 120-125)' if has_evidence_issues else '- Limited evidence inconsistencies found'}
-{'- Physical evidence questions raised - (Page 3, Lines 95-100)' if 'dna' in text.lower() or 'fingerprint' in text.lower() else ''}
-{'- Timeline inconsistencies identified - (Page 2, Lines 70-75)' if has_evidence_issues else ''}
+            if not actual_text:
+                continue
 
-### Witness Issues
-{'- Eyewitness identification concerns present - (Page 5, Lines 150-155)' if 'witness' in text.lower() else '- No significant witness reliability issues identified'}
-{'- Character witness support mentioned - (Page 4, Lines 130-135)' if 'character' in text.lower() else ''}
+            # Detect different categories based on content
+            speaker = "Unknown"
+            if "Commissioner" in actual_text or "Presiding" in actual_text:
+                speaker = "Commissioner"
+            elif "Emmanuel" in actual_text or "Young" in actual_text:
+                speaker = "Emmanuel Young"
+            elif "Attorney" in actual_text or "Mbelu" in actual_text:
+                speaker = "Attorney"
 
-### New Evidence or Developments
-- Post-conviction developments: {'Evidence of case review mentioned - (Page 6, Lines 180-185)' if 'review' in text.lower() else 'No new evidence developments noted'}
-- {'Technology advances referenced - (Page 5, Lines 160-165)' if 'dna' in text.lower() else ''}
+            # Check for responsibility pressure
+            if any(word in actual_text.lower() for word in ["responsibility", "remorse", "accept", "admit"]):
+                if len(actual_text) > 20:  # Only include substantial quotes
+                    findings.append(
+                        {
+                            "quote": actual_text[:200] + "..." if len(actual_text) > 200 else actual_text,
+                            "speaker": speaker,
+                            "page": page_num,
+                            "line": line_num,
+                            "category": "responsibility_pressure",
+                            "significance": "Board member pressuring defendant to accept responsibility or show remorse",
+                        }
+                    )
 
-## Red Flags for Wrongful Conviction
-{'⚠️ **High Priority Indicators:**' if has_innocence_claims and has_procedural_issues else '**Assessment:**'}
-{'''- False confession indicators present - (Page 2, Lines 40-50)
-- Inadequate legal defense concerns - (Page 1, Lines 20-30)
-- Eyewitness reliability issues - (Page 4, Lines 110-120)''' if has_innocence_claims and has_procedural_issues else '- Limited wrongful conviction indicators detected'}
+            # Check for procedural issues
+            elif any(word in actual_text.lower() for word in procedural_keywords):
+                if len(actual_text) > 20:
+                    findings.append(
+                        {
+                            "quote": actual_text[:200] + "..." if len(actual_text) > 200 else actual_text,
+                            "speaker": speaker,
+                            "page": page_num,
+                            "line": line_num,
+                            "category": "procedural_issue",
+                            "significance": "Reference to legal representation or procedural matters",
+                        }
+                    )
 
-## Evidence Strength Assessment
-{'''### Strong Indicators
-- Consistent innocence claims: **Moderate** - (Multiple references throughout document)
-- Procedural violations: **Moderate** - (Page 1-3, various lines)''' if has_innocence_claims and has_procedural_issues else '''### Assessment Summary
-- Direct innocence evidence: **Weak** - Limited explicit claims
-- Procedural concerns: **Weak** - Minimal constitutional issues identified'''}
+            # Check for consistency/inconsistency mentions
+            elif any(word in actual_text.lower() for word in ["version", "different", "contradict", "inconsistent"]):
+                if len(actual_text) > 20:
+                    findings.append(
+                        {
+                            "quote": actual_text[:200] + "..." if len(actual_text) > 200 else actual_text,
+                            "speaker": speaker,
+                            "page": page_num,
+                            "line": line_num,
+                            "category": "consistency_statement",
+                            "significance": "Statement addressing consistency or inconsistency of accounts",
+                        }
+                    )
 
-{'### Moderate Indicators' if has_evidence_issues else '### Limited Indicators'}
-{'- Evidence inconsistencies: **Moderate** - (Page 3-4, Lines 90-130)' if has_evidence_issues else '- Evidence review: **Inconclusive** - Insufficient detail for assessment'}
+            # Look for behavioral clarity indicators
+            elif any(word in actual_text.lower() for word in ["right", "yes", "no", "correct"]) and len(actual_text) < 50:
+                findings.append(
+                    {
+                        "quote": actual_text,
+                        "speaker": speaker,
+                        "page": page_num,
+                        "line": line_num,
+                        "category": "behavioral_clarity",
+                        "significance": "Direct, clear response to questioning",
+                    }
+                )
 
-## Recommended Actions
-Based on this analysis:
-{'''- **Immediate**: Comprehensive case file review recommended
-- **Priority**: Expert consultation on procedural violations
-- **Investigation**: Witness statement verification needed
-- **Legal**: Consider post-conviction relief motions''' if has_innocence_claims and has_procedural_issues else '''- Further document review recommended for complete assessment
-- Legal consultation advised if additional evidence emerges
-- Maintain detailed records of all proceedings'''}
+        # Limit findings to most relevant ones
+        findings = findings[:10]
 
-*Note: This is a preliminary computer-generated analysis. Professional legal review required for complete assessment.*"""
+        # Calculate summary statistics
+        innocence_indicators = sum(1 for f in findings if f["category"] in ["direct_innocence_claim", "external_evidence"])
+        responsibility_pressure = sum(1 for f in findings if f["category"] == "responsibility_pressure")
+        consistency_issues = sum(1 for f in findings if f["category"] == "consistency_statement")
+        external_evidence = sum(1 for f in findings if f["category"] == "external_evidence")
 
-        return mock_analysis
+        # Determine overall assessment
+        if innocence_indicators > responsibility_pressure:
+            overall_assessment = "innocence_claim"
+        elif responsibility_pressure > innocence_indicators and consistency_issues > 0:
+            overall_assessment = "guilt_minimization"
+        else:
+            overall_assessment = "inconclusive"
+
+        mock_analysis_json = {
+            "findings": findings,
+            "summary": {
+                "total_findings": len(findings),
+                "innocence_indicators": innocence_indicators,
+                "responsibility_pressure": responsibility_pressure,
+                "consistency_issues": consistency_issues,
+                "external_evidence": external_evidence,
+                "overall_assessment": overall_assessment,
+            },
+        }
+
+        return json.dumps(mock_analysis_json, indent=2)
 
 
 # Service instances
