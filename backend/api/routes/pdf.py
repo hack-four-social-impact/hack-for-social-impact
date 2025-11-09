@@ -185,6 +185,142 @@ async def generate_parole_summary(file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 
+@router.post("/innocence-analysis")
+async def analyze_innocence_claims(file: UploadFile = File(...)):
+    """
+    Specialized analysis for detecting and evaluating innocence claims in legal documents.
+
+    This endpoint focuses specifically on identifying potential innocence indicators,
+    procedural issues, and evidence inconsistencies that might support wrongful conviction claims.
+
+    Args:
+        file: PDF file containing legal documents (transcripts, court records, etc.)
+
+    Returns:
+        JSON response with innocence-focused analysis and evidence assessment
+    """
+
+    innocence_analysis_prompt = """
+    You are a legal analyst specializing in wrongful conviction cases. Analyze this document for potential innocence indicators and provide a structured analysis focused on detecting possible wrongful conviction evidence.
+
+    # Innocence Detection Analysis
+
+    ## Executive Summary
+    Provide a 2-3 sentence assessment of the overall innocence claim strength based on the document.
+
+    ## Innocence Claim Indicators
+    Look for and categorize the following types of evidence:
+
+    ### Direct Innocence Claims
+    - Explicit statements of innocence by the defendant
+    - Consistent maintenance of innocence over time
+    - Specific denials of key elements of the crime
+    - Claims of being elsewhere at the time of the crime (alibi)
+
+    ### Procedural Issues & Constitutional Violations
+    - Inadequate legal representation claims
+    - Prosecutorial misconduct allegations
+    - Evidence suppression or Brady violations
+    - Coerced confessions or interrogation issues
+    - Jury misconduct or bias
+    - Judicial errors or bias
+
+    ### Evidence Inconsistencies
+    - Contradictory witness statements
+    - Physical evidence that doesn't match the conviction narrative
+    - DNA evidence issues or absence
+    - Forensic evidence problems or misinterpretation
+    - Timeline inconsistencies
+    - Alternative suspect evidence
+
+    ### Witness Issues
+    - Recantations by prosecution witnesses
+    - Eyewitness identification problems
+    - Incentivized witness testimony concerns
+    - Character witness support for innocence
+
+    ### New Evidence or Developments
+    - Post-conviction DNA testing results
+    - New witness statements
+    - Alternative perpetrator evidence
+    - Technology advances revealing new evidence
+    - Expert testimony challenging prosecution evidence
+
+    ## Red Flags for Wrongful Conviction
+    Identify patterns commonly associated with wrongful convictions:
+    - False confessions (especially from vulnerable populations)
+    - Unreliable eyewitness identification
+    - Perjury or false accusations
+    - Official misconduct
+    - Inadequate legal defense
+    - Forensic evidence misuse
+
+    ## Evidence Strength Assessment
+    For each category found, rate the strength:
+    - **Strong**: Compelling evidence that significantly supports innocence
+    - **Moderate**: Notable concerns that warrant further investigation
+    - **Weak**: Minor inconsistencies or procedural issues
+    - **Inconclusive**: Insufficient information to assess
+
+    ## Recommended Actions
+    Based on the analysis, suggest:
+    - Areas requiring further investigation
+    - Expert consultations needed
+    - Legal motions that might be appropriate
+    - Evidence that should be preserved or tested
+
+    **CRITICAL: Provide precise citations with page and line numbers for ALL findings:**
+    - Direct quotes: "Quote text" - (Speaker/Source, Page X, Line Y)
+    - Evidence references: Found at Page X, Lines Y-Z
+    - Document sections: Referenced at Page X, Lines Y-Z
+
+    **Citation Examples:**
+    - "I didn't do this crime" - (Defendant, Page 3, Line 45)
+    - Alibi evidence mentioned at Page 7, Lines 120-125
+    - Witness recantation at Page 12, Lines 200-210
+
+    Format as professional legal analysis with clear headings, bullet points, and precise citations. Maintain objectivity and focus on factual evidence rather than conclusions.
+    """
+
+    # Read file content
+    file_content = await file.read()
+
+    # Validate file
+    pdf_service.validate_pdf_file(file.content_type or "", len(file_content))
+
+    try:
+        # Extract text from PDF
+        extracted_text = pdf_service.extract_text_from_pdf(file_content)
+
+        if not extracted_text:
+            raise HTTPException(status_code=400, detail="No text could be extracted from the PDF")
+
+        # Process with Gemini AI using innocence-focused prompt
+        innocence_analysis = gemini_service.process_text_with_ai(extracted_text, innocence_analysis_prompt)
+
+        return {
+            "success": True,
+            "filename": file.filename,
+            "file_size": len(file_content),
+            "extracted_text_length": len(extracted_text),
+            "innocence_analysis": innocence_analysis,
+            "analysis_type": "innocence_detection",
+            "focus_areas": [
+                "direct_innocence_claims",
+                "procedural_violations",
+                "evidence_inconsistencies",
+                "witness_issues",
+                "new_evidence",
+                "wrongful_conviction_patterns",
+            ],
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+
+
 @router.post("/extract-text")
 async def extract_text_only(file: UploadFile = File(...)):
     """
