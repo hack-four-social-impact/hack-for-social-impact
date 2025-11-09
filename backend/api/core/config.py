@@ -27,8 +27,14 @@ class Config:
     # File upload limits
     MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
 
+    # Debug mode (disable in production)
+    DEBUG = os.getenv("DEBUG", "True").lower() in ("true", "1", "yes")
+
     # CORS settings
-    ALLOWED_ORIGINS = ["*"]  # Configure this properly in production
+    # In production, set ALLOWED_ORIGINS environment variable to your frontend domain
+    # Example: ALLOWED_ORIGINS=https://your-app.vercel.app,https://your-app-staging.vercel.app
+    _origins = os.getenv("ALLOWED_ORIGINS", "*")
+    ALLOWED_ORIGINS = [origin.strip() for origin in _origins.split(",") if origin.strip()]
 
     @classmethod
     def get_gemini_model(cls) -> Any:
