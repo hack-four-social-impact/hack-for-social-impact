@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Button,
@@ -18,11 +18,6 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import PdfUploadModal from '../PdfUploadModal';
 import mockData from '../mockData.json';
-
-const statusColor = {
-  active: 'primary',
-  pending: 'default',
-};
 
 function Dashboard() {
   // Convert mockData to sidebar clients
