@@ -94,13 +94,13 @@ async def generate_parole_summary(file: UploadFile = File(...)):
     Generate a structured parole hearing summary from a PDF document.
 
     Specifically designed for parole hearing transcripts and related documents.
-    Returns a markdown-formatted summary covering key aspects of the hearing.
+    Returns a markdown-formatted summary covering key aspects of the hearing along with structured demographics data.
 
     Args:
         file: PDF file containing parole hearing transcript
 
     Returns:
-        JSON response with structured markdown summary for frontend display
+        JSON response with structured markdown summary and demographics object for frontend display
     """
 
     parole_summary_prompt = """
@@ -155,6 +155,114 @@ async def generate_parole_summary(file: UploadFile = File(...)):
     Format as clean markdown with proper headings, bullet points, and precise page and line number citations. Keep it professional, factual, and under one page.
     """
 
+    demographics_extraction_prompt = """
+    Please extract structured information from this parole hearing document and return it as a JSON object with the following structure.
+
+    Pay special attention to attorney information which may appear with phrases like:
+    - "Attorney for Incarcerated Person"
+    - "Counsel for the Inmate" 
+    - "Representing [Name]"
+    - "Attorney [Name] present"
+    - "Legal counsel"
+    - "Defense attorney"
+
+    {
+      "clientInfo": {
+        "name": "",
+        "cdcrNumber": "",
+        "dateOfBirth": "",
+        "contactInfo": ""
+      },
+      
+      "introduction": {
+        "shortSummary": ""
+      },
+      
+      "evidenceUsedToConvict": [],
+      
+      "potentialTheory": "",
+      
+      "convictionInfo": {
+        "dateOfCrime": "",
+        "locationOfCrime": "",
+        "dateOfArrest": "",
+        "charges": "",
+        "dateOfConviction": "",
+        "sentenceLength": "",
+        "county": "",
+        "trialOrPlea": ""
+      },
+      
+      "appealInfo": {
+        "directAppealFiled": "",
+        "appellateCourtCaseNumber": "",
+        "dateDecided": "",
+        "result": "",
+        "habenasFilings": []
+      },
+      
+      "attorneyInfo": {
+        "currentAttorneyForIncarceratedPerson": {
+          "name": "",
+          "title": "",
+          "firm": "",
+          "address": "",
+          "phone": "",
+          "email": "",
+          "presentAtHearing": false,
+          "representationContext": ""
+        },
+        "trialAttorney": {
+          "name": "",
+          "address": "",
+          "phone": "",
+          "caseNumber": "",
+          "appointedOrRetained": ""
+        },
+        "appellateAttorney": {
+          "name": "",
+          "address": "",
+          "phone": "",
+          "caseNumbers": "",
+          "courtLevel": ""
+        },
+        "otherLegalRepresentation": []
+      },
+      
+      "newEvidence": [],
+      
+      "codefendants": "",
+      
+      "physicalDescription": {
+        "height": "",
+        "weight": "",
+        "race": "",
+        "build": "",
+        "distinguishingMarks": ""
+      },
+      
+      "victimInfo": {
+        "name": "",
+        "relationship": ""
+      },
+      
+      "prisonRecord": {
+        "conduct": "",
+        "programming": "",
+        "support": ""
+      }
+    }
+
+    **ATTORNEY EXTRACTION GUIDELINES:**
+    - Look for phrases like "Attorney for Incarcerated Person", "Counsel for [Name]", "Representing", etc.
+    - Extract attorney names that appear in the document header, participant list, or during proceedings
+    - If an attorney is speaking or mentioned as present, set "presentAtHearing" to true
+    - Include context about their role (e.g., "Attorney for Incarcerated Person", "Legal Counsel", etc.)
+    - For "otherLegalRepresentation", include any additional attorneys mentioned but not fitting other categories
+
+    Extract as much information as possible from the document. If specific information is not available, leave the field as an empty string, empty array, or false for boolean fields. Use exact quotes and references from the document where possible. Return ONLY valid JSON - no additional text or formatting.
+    """
+
     # Read file content
     file_content = await file.read()
 
@@ -168,8 +276,62 @@ async def generate_parole_summary(file: UploadFile = File(...)):
         if not extracted_text:
             raise HTTPException(status_code=400, detail="No text could be extracted from the PDF")
 
-        # Process with Gemini AI using parole-specific prompt
-        markdown_summary = gemini_service.process_text_with_ai(extracted_text, parole_summary_prompt)
+        # Generate both markdown summary and demographics data
+        markdown_summary, demographics_raw = gemini_service.generate_parole_summary_with_demographics(
+            extracted_text, parole_summary_prompt, demographics_extraction_prompt
+        )
+
+        # Try to parse demographics as JSON
+        try:
+            # Remove markdown code block markers if present
+            clean_json = demographics_raw.strip()
+            if clean_json.startswith("```json"):
+                clean_json = clean_json[7:]  # Remove ```json
+            if clean_json.endswith("```"):
+                clean_json = clean_json[:-3]  # Remove ```
+            clean_json = clean_json.strip()
+
+            demographics = json.loads(clean_json)
+        except (json.JSONDecodeError, ValueError):
+            # Fallback to empty structure if AI didn't return valid JSON
+            demographics = {
+                "clientInfo": {"name": "", "cdcrNumber": "", "dateOfBirth": "", "contactInfo": ""},
+                "introduction": {"shortSummary": ""},
+                "evidenceUsedToConvict": [],
+                "potentialTheory": "",
+                "convictionInfo": {
+                    "dateOfCrime": "",
+                    "locationOfCrime": "",
+                    "dateOfArrest": "",
+                    "charges": "",
+                    "dateOfConviction": "",
+                    "sentenceLength": "",
+                    "county": "",
+                    "trialOrPlea": "",
+                },
+                "appealInfo": {"directAppealFiled": "", "appellateCourtCaseNumber": "", "dateDecided": "", "result": "", "habenasFilings": []},
+                "attorneyInfo": {
+                    "currentAttorneyForIncarceratedPerson": {
+                        "name": "",
+                        "title": "",
+                        "firm": "",
+                        "address": "",
+                        "phone": "",
+                        "email": "",
+                        "presentAtHearing": False,
+                        "representationContext": "",
+                    },
+                    "trialAttorney": {"name": "", "address": "", "phone": "", "caseNumber": "", "appointedOrRetained": ""},
+                    "appellateAttorney": {"name": "", "address": "", "phone": "", "caseNumbers": "", "courtLevel": ""},
+                    "otherLegalRepresentation": [],
+                },
+                "newEvidence": [],
+                "codefendants": "",
+                "physicalDescription": {"height": "", "weight": "", "race": "", "build": "", "distinguishingMarks": ""},
+                "victimInfo": {"name": "", "relationship": ""},
+                "prisonRecord": {"conduct": "", "programming": "", "support": ""},
+                "extraction_note": "Could not parse AI response as JSON",
+            }
 
         return {
             "success": True,
@@ -177,6 +339,7 @@ async def generate_parole_summary(file: UploadFile = File(...)):
             "file_size": len(file_content),
             "extracted_text_length": len(extracted_text),
             "markdown_summary": markdown_summary,
+            "demographics": demographics,
             "summary_type": "parole_hearing_summary",
         }
 
