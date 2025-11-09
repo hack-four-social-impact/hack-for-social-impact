@@ -135,58 +135,45 @@ function Dashboard() {
 
       {/* Main Content */}
       <Box sx={{ flex: 1, p: 4 }}>
-        {/* Header */}
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mb: 3 }}>
-          <Typography variant="h5" fontWeight={700} sx={{ mb: 0.5, color: '#1a1a1a', textAlign: 'left' }}>
-            JusticeAI
-          </Typography>
-        </Box>
-        <Divider sx={{ mb: 3 }} />
         {/* Document Analysis Section */}
         <Paper elevation={2} sx={{ p: 4, borderRadius: 3, maxWidth: 800, mx: 'auto', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mb: 2 }}>
-            <Typography variant="h5" fontWeight={700} sx={{ color: '#1a1a1a', textAlign: 'left', mb: 0.5 }}>
-              Case Analysis
-            </Typography>
-            <Typography variant="subtitle1" color="#6b7280" sx={{ fontWeight: 500, textAlign: 'left', mb: 1 }}>
-              Comprehensive legal document summary
-            </Typography>
-          </Box>
-          <Button variant="contained" color="primary" sx={{ borderRadius: 2, textTransform: 'none', fontWeight: 600, px: 2, py: 1, position: 'absolute', top: 32, right: 32 }}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span style={{ fontSize: 18, marginRight: 4 }}>⭳</span> Export
-            </span>
-          </Button>
-          <Divider sx={{ mb: 3 }} />
-          {/* Client Information Section */}
-          <Typography variant="h6" fontWeight={700} sx={{ mb: 2, color: '#1a1a1a', textAlign: 'left' }}>
-            Client Information
-          </Typography>
-          <Box sx={{ display: 'flex', gap: 6, mb: 3 }}>
-            <Box sx={{ flex: 1 }}>
-              <Typography variant="subtitle2" fontWeight={600} color="#6b7280" sx={{ mb: 0.5, textAlign: 'left' }}>
-                Client's Name
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, justifyContent: 'space-between' }}>
+            <Box>
+              <Typography variant="h5" fontWeight={900} sx={{ color: '#1a1a1a', textAlign: 'left', mb: 0.5 }}>
+                Case Analysis
               </Typography>
-              <Typography fontWeight={600} sx={{ color: '#1a1a1a', textAlign: 'left' }}>{selectedData?.demographics.clientInfo.name}</Typography>
-            </Box>
-            <Box sx={{ flex: 1 }}>
-              <Typography variant="subtitle2" fontWeight={600} color="#6b7280" sx={{ mb: 0.5, textAlign: 'left' }}>
-                CDCR No.
+              <Typography variant="subtitle1" color="#6b7280" sx={{ fontWeight: 500, textAlign: 'left', mb: 2 }}>
+                Comprehensive legal document summary
               </Typography>
-              <Typography fontWeight={600} sx={{ color: '#1a1a1a', textAlign: 'left' }}>{selectedData?.demographics.clientInfo.cdcrNumber}</Typography>
-            </Box>
-            <Box sx={{ flex: 1 }}>
-              <Typography variant="subtitle2" fontWeight={600} color="#6b7280" sx={{ mb: 0.5, textAlign: 'left' }}>
-                Contact Information
+              <Typography variant="h6" fontWeight={700} sx={{ color: '#1a1a1a', textAlign: 'left', mb: 2 }}>
+                Client Information
               </Typography>
-              <Typography fontWeight={600} sx={{ color: '#1a1a1a', textAlign: 'left' }}>{selectedData?.demographics.clientInfo.contactInfo}</Typography>
+              <Box sx={{ display: 'flex', gap: 6, mt: 2 }}>
+                <Box>
+                  <Typography variant="subtitle2" fontWeight={600} color="#6b7280" sx={{ mb: 0.5, textAlign: 'left' }}>
+                    Client's Name & CDCR No.
+                  </Typography>
+                  <Typography fontWeight={600} sx={{ color: '#1a1a1a', textAlign: 'left' }}>{selectedData?.demographics.clientInfo.name} ({selectedData?.demographics.clientInfo.cdcrNumber})</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="subtitle2" fontWeight={600} color="#6b7280" sx={{ mb: 0.5, textAlign: 'left' }}>
+                    Contact Information
+                  </Typography>
+                  <Typography fontWeight={600} sx={{ color: '#1a1a1a', textAlign: 'left' }}>{selectedData?.demographics.clientInfo.contactInfo}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="subtitle2" fontWeight={600} color="#6b7280" sx={{ mb: 0.5, textAlign: 'left' }}>
+                    Date of Birth
+                  </Typography>
+                  <Typography fontWeight={600} sx={{ color: '#1a1a1a', textAlign: 'left' }}>{selectedData?.demographics.clientInfo.dateOfBirth}</Typography>
+                </Box>
+              </Box>
             </Box>
-            <Box sx={{ flex: 1 }}>
-              <Typography variant="subtitle2" fontWeight={600} color="#6b7280" sx={{ mb: 0.5, textAlign: 'left' }}>
-                Date of Birth
-              </Typography>
-              <Typography fontWeight={600} sx={{ color: '#1a1a1a', textAlign: 'left' }}>{selectedData?.demographics.clientInfo.dateOfBirth}</Typography>
-            </Box>
+            <Button variant="contained" color="primary" sx={{ borderRadius: 2, textTransform: 'none', fontWeight: 600, px: 2, py: 1 }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={{ fontSize: 18, marginRight: 4 }}>⭳</span> Export
+              </span>
+            </Button>
           </Box>
           <Divider sx={{ mb: 3 }} />
           {/* Introduction */}
@@ -348,11 +335,11 @@ function Dashboard() {
             Physical Description
           </Typography>
           <ul style={{ marginBottom: 24, marginTop: 0, paddingLeft: 24, textAlign: 'left' }}>
-            <li>Height: {selectedData?.demographics.physicalDescription.height}</li>
-            <li>Weight: {selectedData?.demographics.physicalDescription.weight}</li>
-            <li>Race: {selectedData?.demographics.physicalDescription.race}</li>
-            <li>Build: {selectedData?.demographics.physicalDescription.build}</li>
-            <li>Distinguishing Marks: {selectedData?.demographics.physicalDescription.distinguishingMarks}</li>
+            <li style={{ marginBottom: 8 }}>Height: {selectedData?.demographics.physicalDescription.height}</li>
+            <li style={{ marginBottom: 8 }}>Weight: {selectedData?.demographics.physicalDescription.weight}</li>
+            <li style={{ marginBottom: 8 }}>Race: {selectedData?.demographics.physicalDescription.race}</li>
+            <li style={{ marginBottom: 8 }}>Build: {selectedData?.demographics.physicalDescription.build}</li>
+            <li style={{ marginBottom: 8 }}>Distinguishing Marks: {selectedData?.demographics.physicalDescription.distinguishingMarks}</li>
           </ul>
           <Divider sx={{ mb: 3 }} />
           {/* Victim Info */}
@@ -360,8 +347,8 @@ function Dashboard() {
             Victim Information
           </Typography>
           <ul style={{ marginBottom: 24, marginTop: 0, paddingLeft: 24, textAlign: 'left' }}>
-            <li>Name: {selectedData?.demographics.victimInfo.name}</li>
-            <li>Relationship: {selectedData?.demographics.victimInfo.relationship}</li>
+            <li style={{ marginBottom: 8 }}>Name: {selectedData?.demographics.victimInfo.name}</li>
+            <li style={{ marginBottom: 8 }}>Relationship: {selectedData?.demographics.victimInfo.relationship}</li>
           </ul>
           <Divider sx={{ mb: 3 }} />
           {/* Prison Record */}
@@ -369,9 +356,9 @@ function Dashboard() {
             Prison Record
           </Typography>
           <ul style={{ marginBottom: 24, marginTop: 0, paddingLeft: 24, textAlign: 'left' }}>
-            <li>Conduct: {selectedData?.demographics.prisonRecord.conduct}</li>
-            <li>Programming: {selectedData?.demographics.prisonRecord.programming}</li>
-            <li>Support: {selectedData?.demographics.prisonRecord.support}</li>
+            <li style={{ marginBottom: 8 }}>Conduct: {selectedData?.demographics.prisonRecord.conduct}</li>
+            <li style={{ marginBottom: 8 }}>Programming: {selectedData?.demographics.prisonRecord.programming}</li>
+            <li style={{ marginBottom: 8 }}>Support: {selectedData?.demographics.prisonRecord.support}</li>
           </ul>
         </Paper>
       </Box>
