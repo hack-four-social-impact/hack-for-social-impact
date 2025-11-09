@@ -193,6 +193,81 @@ export class PDFExporter {
     this.currentY += height;
   }
 
+  private addMarkdownContent(markdownText: string): void {
+    // Split markdown into lines for processing
+    const lines = markdownText.split("\n");
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+
+      if (!line) {
+        this.addSpacer(3);
+        continue;
+      }
+
+      // Handle headers
+      if (line.startsWith("## ")) {
+        this.addTitle(line.substring(3), 16);
+      } else if (line.startsWith("### ")) {
+        this.addSubtitle(line.substring(4), 14);
+      } else if (line.startsWith("# ")) {
+        this.addTitle(line.substring(2), 18);
+      }
+      // Handle bullet points
+      else if (line.startsWith("* ") || line.startsWith("- ")) {
+        const bulletText = line.substring(2);
+        this.checkPageBreak();
+        this.doc.setFontSize(10);
+        this.doc.setFont("helvetica", "normal");
+
+        // Handle bold text within bullets
+        const formattedText = bulletText.replace(/\*\*(.*?)\*\*/g, "$1");
+
+        this.doc.text("•", this.margin, this.currentY);
+
+        const maxWidth = 165;
+        const textLines = this.doc.splitTextToSize(formattedText, maxWidth);
+
+        for (let j = 0; j < textLines.length; j++) {
+          this.checkPageBreak();
+          if (textLines[j].includes("**")) {
+            // Handle bold parts
+            const parts = textLines[j].split(/(\*\*.*?\*\*)/);
+            let xOffset = this.margin + 5;
+
+            for (const part of parts) {
+              if (part.startsWith("**") && part.endsWith("**")) {
+                this.doc.setFont("helvetica", "bold");
+                const boldText = part.substring(2, part.length - 2);
+                this.doc.text(boldText, xOffset, this.currentY);
+                xOffset += this.doc.getTextWidth(boldText);
+                this.doc.setFont("helvetica", "normal");
+              } else if (part) {
+                this.doc.text(part, xOffset, this.currentY);
+                xOffset += this.doc.getTextWidth(part);
+              }
+            }
+          } else {
+            this.doc.text(textLines[j], this.margin + 5, this.currentY);
+          }
+          this.currentY += this.lineHeight;
+        }
+        this.addSpacer(2);
+      }
+      // Handle regular paragraphs
+      else {
+        // Remove markdown formatting and add as regular text
+        const cleanText = line
+          .replace(/\*\*(.*?)\*\*/g, "$1") // Remove bold markers
+          .replace(/\*(.*?)\*/g, "$1") // Remove italic markers
+          .replace(/`(.*?)`/g, "$1"); // Remove code markers
+
+        this.addText(cleanText);
+        this.addSpacer(3);
+      }
+    }
+  }
+
   public exportMockDataToPDF(data: MockParoleData): void {
     // Header
     this.addTitle("PAROLE HEARING CASE SUMMARY", 18);
@@ -200,138 +275,19 @@ export class PDFExporter {
     this.addText(`Source File: ${data.filename}`);
     this.addSpacer(10);
 
-    // Client Information
+    // Client Information Header
     this.addTitle("CLIENT INFORMATION");
     this.addKeyValue("Name", data.demographics.clientInfo.name);
     this.addKeyValue("CDCR Number", data.demographics.clientInfo.cdcrNumber);
     this.addKeyValue("Date of Birth", data.demographics.clientInfo.dateOfBirth);
     this.addKeyValue("Contact Info", data.demographics.clientInfo.contactInfo);
-    this.addSpacer();
+    this.addSpacer(15);
 
-    // Case Overview
-    this.addTitle("CASE OVERVIEW");
-    this.addText(data.demographics.introduction.shortSummary);
-    this.addSpacer();
-
-    // Conviction Information
-    this.addTitle("CONVICTION INFORMATION");
-    this.addKeyValue("Date of Crime", data.demographics.convictionInfo.dateOfCrime);
-    this.addKeyValue("Location", data.demographics.convictionInfo.locationOfCrime);
-    this.addKeyValue("Date of Arrest", data.demographics.convictionInfo.dateOfArrest);
-    this.addKeyValue("Charges", data.demographics.convictionInfo.charges);
-    this.addKeyValue("Date of Conviction", data.demographics.convictionInfo.dateOfConviction);
-    this.addKeyValue("Sentence Length", data.demographics.convictionInfo.sentenceLength);
-    this.addKeyValue("County", data.demographics.convictionInfo.county);
-    this.addKeyValue("Trial or Plea", data.demographics.convictionInfo.trialOrPlea);
-    this.addSpacer();
-
-    // Attorney Information
-    this.addTitle("LEGAL REPRESENTATION");
-
-    const attorney = data.demographics.attorneyInfo.currentAttorneyForIncarceratedPerson;
-    if (attorney.name) {
-      this.addSubtitle("Current Attorney");
-      this.addKeyValue("Name", attorney.name, 5);
-      this.addKeyValue("Title", attorney.title, 5);
-      this.addKeyValue("Firm", attorney.firm, 5);
-      this.addKeyValue("Address", attorney.address, 5);
-      this.addKeyValue("Phone", attorney.phone, 5);
-      this.addKeyValue("Email", attorney.email, 5);
-      this.addKeyValue("Present at Hearing", attorney.presentAtHearing ? "Yes" : "No", 5);
-      this.addKeyValue("Context", attorney.representationContext, 5);
-    }
-
-    const trialAttorney = data.demographics.attorneyInfo.trialAttorney;
-    if (trialAttorney.name) {
-      this.addSubtitle("Trial Attorney");
-      this.addKeyValue("Name", trialAttorney.name, 5);
-      this.addKeyValue("Address", trialAttorney.address, 5);
-      this.addKeyValue("Phone", trialAttorney.phone, 5);
-      this.addKeyValue("Case Number", trialAttorney.caseNumber, 5);
-      this.addKeyValue("Appointed/Retained", trialAttorney.appointedOrRetained, 5);
-    }
-
-    const appellateAttorney = data.demographics.attorneyInfo.appellateAttorney;
-    if (appellateAttorney.name) {
-      this.addSubtitle("Appellate Attorney");
-      this.addKeyValue("Name", appellateAttorney.name, 5);
-      this.addKeyValue("Address", appellateAttorney.address, 5);
-      this.addKeyValue("Phone", appellateAttorney.phone, 5);
-      this.addKeyValue("Case Numbers", appellateAttorney.caseNumbers, 5);
-      this.addKeyValue("Court Level", appellateAttorney.courtLevel, 5);
-    }
-
-    this.addSpacer();
-
-    // Evidence Used to Convict
-    if (data.demographics.evidenceUsedToConvict.length > 0) {
-      this.addTitle("EVIDENCE USED TO CONVICT");
-      this.addList(data.demographics.evidenceUsedToConvict);
-      this.addSpacer();
-    }
-
-    // Potential Theory
-    if (data.demographics.potentialTheory) {
-      this.addTitle("POTENTIAL THEORY");
-      this.addText(data.demographics.potentialTheory);
-      this.addSpacer();
-    }
-
-    // Appeal Information
-    this.addTitle("APPEAL INFORMATION");
-    this.addKeyValue("Direct Appeal Filed", data.demographics.appealInfo.directAppealFiled);
-    this.addKeyValue("Court Case Number", data.demographics.appealInfo.appellateCourtCaseNumber);
-    this.addKeyValue("Date Decided", data.demographics.appealInfo.dateDecided);
-    this.addKeyValue("Result", data.demographics.appealInfo.result);
-
-    if (data.demographics.appealInfo.habenasFilings.length > 0) {
-      this.addSubtitle("Habeas Filings");
-      this.addList(data.demographics.appealInfo.habenasFilings);
-    }
-    this.addSpacer();
-
-    // New Evidence
-    if (data.demographics.newEvidence.length > 0) {
-      this.addTitle("NEW EVIDENCE");
-      this.addList(data.demographics.newEvidence);
-      this.addSpacer();
-    }
-
-    // Physical Description
-    this.addTitle("PHYSICAL DESCRIPTION");
-    this.addKeyValue("Height", data.demographics.physicalDescription.height);
-    this.addKeyValue("Weight", data.demographics.physicalDescription.weight);
-    this.addKeyValue("Race", data.demographics.physicalDescription.race);
-    this.addKeyValue("Build", data.demographics.physicalDescription.build);
-    this.addKeyValue("Distinguishing Marks", data.demographics.physicalDescription.distinguishingMarks);
-    this.addSpacer();
-
-    // Victim Information
-    this.addTitle("VICTIM INFORMATION");
-    this.addKeyValue("Name", data.demographics.victimInfo.name);
-    this.addKeyValue("Relationship", data.demographics.victimInfo.relationship);
-    this.addSpacer();
-
-    // Prison Record
-    this.addTitle("PRISON RECORD");
-    this.addKeyValue("Conduct", data.demographics.prisonRecord.conduct);
-    this.addKeyValue("Programming", data.demographics.prisonRecord.programming);
-    this.addKeyValue("Support", data.demographics.prisonRecord.support);
-    this.addSpacer();
-
-    // Summary Analysis (simplified markdown)
-    this.addTitle("HEARING SUMMARY");
-    const summaryText = data.markdown_summary
-      .replace(/# /g, "")
-      .replace(/## /g, "")
-      .replace(/### /g, "")
-      .replace(/\*\*(.*?)\*\*/g, "$1")
-      .replace(/- /g, "• ");
-
-    this.addText(summaryText);
+    // Main Content: Markdown Summary
+    this.addMarkdownContent(data.markdown_summary);
 
     // Save the PDF
-    const fileName = `parole_case_${data.demographics.clientInfo.name.replace(
+    const fileName = `parole_hearing_summary_${data.demographics.clientInfo.name.replace(
       /\s+/g,
       "_"
     )}_${new Date().getTime()}.pdf`;
