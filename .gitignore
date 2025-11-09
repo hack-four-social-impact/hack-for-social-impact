@@ -68,3 +68,8 @@ env/
 # Misc
 .vercel
 .turbo
+
+# Google Cloud Service Account
+service-account.json
+**/service-account.json
+credentials/*.json

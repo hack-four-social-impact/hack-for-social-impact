@@ -16,7 +16,7 @@ A FastAPI-based backend server with PDF processing and Google Gemini AI integrat
 
    ```bash
    git clone https://github.com/hack-four-social-impact/hack-for-social-impact.git
-   cd hack-for-social-impact/main/backend
+   cd hack-for-social-impact/backend
    ```
 
 2. **Create and activate virtual environment**
