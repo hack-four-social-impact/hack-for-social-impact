@@ -38,16 +38,19 @@ async def process_pdf_with_gemini(file: UploadFile = File(...), prompt: Optional
     5. **Contradictions**: Any discrepancies noted between different versions of events
        - Reference where in the document these contradictions are mentioned
     
-    **For each point, include precise citations with line numbers:**
-    - Direct quotes: "Quote text" - (Speaker Name, Line X)
-    - References: Information found at Line X-Y
-    - Always include the specific line numbers where information is located
+    **For each point, include precise citations with BOTH page numbers and line numbers:**
+    - Direct quotes: "Quote text" - (Speaker Name, Page X, Line Y)
+    - References: Information found at Page X, Lines Y-Z
+    - Always include the specific page and line numbers where information is located
     
     **Example citation format:**
-    - "You solemnly swear, affirm the testimony..." - (Commissioner Ruff, Line 16)
-    - Sentence details at Lines 9-11
+    - "You solemnly swear, affirm the testimony..." - (Commissioner Ruff, Page 1, Line 16)
+    - Sentence details at Page 1, Lines 9-11
+    - Programming discussion at Page 3, Lines 45-52
     
-    Format as clean markdown with proper headings, bullet points, and precise line number citations. Keep it professional and factual.
+    **Note**: The document includes page markers like [PAGE X] and line markers like [Line Y]. Use these to provide precise citations.
+    
+    Format as clean markdown with proper headings, bullet points, and precise page and line number citations. Keep it professional and factual.
     """
 
     # Read file content
@@ -110,7 +113,7 @@ async def generate_parole_summary(file: UploadFile = File(...)):
     ### Offense Context
     - Brief description of the original crime and circumstances
     - Sentence details and timeline
-    - Include citations showing where this information appears in the document (e.g., page numbers, speaker quotes)
+    - Include citations showing where this information appears in the document
     
     ### Programming
     - Educational programs completed or in progress
@@ -134,18 +137,21 @@ async def generate_parole_summary(file: UploadFile = File(...)):
     - Areas where further clarification may be needed
     - Reference specific parts of the transcript where contradictions are highlighted
     
-    **IMPORTANT: For each major point, include citations with specific line numbers:**
-    - Direct quotes: "Quote text" - (Speaker Name, Line X)
-    - Factual references: Information found at Line X-Y
-    - When referencing testimony: As stated by [Speaker] at Line X
-    - Use the exact line numbers where the information appears in the document
+    **IMPORTANT: For each major point, include citations with BOTH page numbers and line numbers:**
+    - Direct quotes: "Quote text" - (Speaker Name, Page X, Line Y)
+    - Factual references: Information found at Page X, Lines Y-Z
+    - When referencing testimony: As stated by [Speaker] at Page X, Line Y
+    - Use the exact page and line numbers where the information appears in the document
     
     **Citations Format Examples:**
-    - "You can't get any more 115s" - (Commissioner Ruff, Line 245)
-    - Crime details found at Lines 8-12
-    - Programming recommendations mentioned at Lines 180-195
+    - "You can't get any more 115s" - (Commissioner Ruff, Page 5, Line 245)
+    - Crime details found at Page 2, Lines 8-12
+    - Programming recommendations mentioned at Page 8, Lines 180-195
+    - Classification score: "68 points" - (Emmanuel Young, Page 1, Line 4)
     
-    Format as clean markdown with proper headings, bullet points, and precise line number citations. Keep it professional, factual, and under one page.
+    **Note**: The document includes page markers like [PAGE X] and line markers like [Line Y]. Use these to provide precise citations.
+    
+    Format as clean markdown with proper headings, bullet points, and precise page and line number citations. Keep it professional, factual, and under one page.
     """
 
     # Read file content
