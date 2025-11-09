@@ -128,11 +128,12 @@ INFO:     Application startup complete.
 
 ### 📄 PDF Processing
 
-| Method | Endpoint              | Description                                    | Parameters                                                 |
-| ------ | --------------------- | ---------------------------------------------- | ---------------------------------------------------------- |
-| `POST` | `/pdf/process`        | Upload PDF + AI markdown conversion (general)  | `file` (PDF), `prompt` (optional), `max_tokens` (optional) |
-| `POST` | `/pdf/parole-summary` | Generate parole hearing summary with citations | `file` (PDF)                                               |
-| `POST` | `/pdf/extract-text`   | Extract text from PDF only (no AI processing)  | `file` (PDF)                                               |
+| Method | Endpoint                  | Description                                        | Parameters                                                 |
+| ------ | ------------------------- | -------------------------------------------------- | ---------------------------------------------------------- |
+| `POST` | `/pdf/process`            | Upload PDF + AI markdown conversion (general)      | `file` (PDF), `prompt` (optional), `max_tokens` (optional) |
+| `POST` | `/pdf/parole-summary`     | Generate parole hearing summary with citations     | `file` (PDF)                                               |
+| `POST` | `/pdf/innocence-analysis` | **NEW** Analyze documents for innocence indicators | `file` (PDF)                                               |
+| `POST` | `/pdf/extract-text`       | Extract text from PDF only (no AI processing)      | `file` (PDF)                                               |
 
 #### Detailed Endpoint Information
 
@@ -167,6 +168,48 @@ curl -X POST "http://localhost:8000/pdf/parole-summary" \
 - ✅ **Structured Analysis**: Covers offense context, programming, parole factors, contradictions
 - ✅ **Direct Quotes**: Includes actual quotes from commissioners and participants
 - ✅ **Legal Format**: Professional format suitable for legal review
+
+##### `/pdf/innocence-analysis` 🔍 **NEW: Innocence Detection Analysis**
+
+**Purpose**: Specialized endpoint for analyzing legal documents to detect potential innocence indicators and wrongful conviction evidence.
+
+**Request**:
+
+```bash
+curl -X POST "http://localhost:8000/pdf/innocence-analysis" \
+  -H "Content-Type: multipart/form-data" \
+  -F "file=@legal_document.pdf"
+```
+
+**Response**:
+
+```json
+{
+  "success": true,
+  "filename": "legal_document.pdf",
+  "file_size": 95432,
+  "extracted_text_length": 18750,
+  "innocence_analysis": "# Innocence Detection Analysis\n\n## Executive Summary\n...",
+  "analysis_type": "innocence_detection",
+  "focus_areas": [
+    "direct_innocence_claims",
+    "procedural_violations",
+    "evidence_inconsistencies",
+    "witness_issues",
+    "new_evidence",
+    "wrongful_conviction_patterns"
+  ]
+}
+```
+
+**Features**:
+
+- 🔍 **Wrongful Conviction Analysis**: Detects patterns commonly associated with wrongful convictions
+- ⚖️ **Procedural Issue Detection**: Identifies constitutional violations and legal representation problems
+- 🧩 **Evidence Inconsistency Analysis**: Highlights contradictions and forensic evidence issues
+- 👥 **Witness Reliability Assessment**: Evaluates eyewitness identification and testimony concerns
+- 📋 **Structured Legal Analysis**: Professional format suitable for legal review and appeals
+- 📍 **Precise Citations**: Page and line number references for all findings
 
 ##### `/pdf/process` 🔧 **General PDF Processing**
 
@@ -239,6 +282,14 @@ curl -X POST "http://localhost:8000/pdf/parole-summary" \
   -F "file=@/path/to/parole_hearing.pdf"
 ```
 
+**Analyze Documents for Innocence Indicators (NEW):**
+
+```bash
+curl -X POST "http://localhost:8000/pdf/innocence-analysis" \
+  -H "Content-Type: multipart/form-data" \
+  -F "file=@/path/to/legal_document.pdf"
+```
+
 **Process PDF with Custom AI Prompt:**
 
 ```bash
@@ -267,6 +318,13 @@ with open('parole_hearing.pdf', 'rb') as f:
     response = requests.post('http://localhost:8000/pdf/parole-summary', files=files)
     result = response.json()
     print(result['markdown_summary'])
+
+# Analyze Documents for Innocence Indicators (NEW)
+with open('legal_document.pdf', 'rb') as f:
+    files = {'file': f}
+    response = requests.post('http://localhost:8000/pdf/innocence-analysis', files=files)
+    result = response.json()
+    print(result['innocence_analysis'])
 
 # Process PDF with Custom Prompt
 with open('document.pdf', 'rb') as f:

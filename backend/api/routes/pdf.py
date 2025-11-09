@@ -1,3 +1,4 @@
+import json
 from typing import Optional
 from fastapi import APIRouter, File, UploadFile, HTTPException, Form
 
@@ -177,6 +178,138 @@ async def generate_parole_summary(file: UploadFile = File(...)):
             "extracted_text_length": len(extracted_text),
             "markdown_summary": markdown_summary,
             "summary_type": "parole_hearing_summary",
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+
+
+@router.post("/innocence-analysis")
+async def analyze_innocence_claims(file: UploadFile = File(...)):
+    """
+    Specialized analysis for detecting and evaluating innocence claims in legal documents.
+
+    This endpoint focuses specifically on identifying potential innocence indicators,
+    procedural issues, and evidence inconsistencies that might support wrongful conviction claims.
+
+    Args:
+        file: PDF file containing legal documents (transcripts, court records, etc.)
+
+    Returns:
+        JSON response with innocence-focused analysis and evidence assessment
+    """
+
+    innocence_analysis_prompt = """
+    You are analyzing a **parole hearing transcript** to evaluate whether the speaker may be **maintaining actual innocence** rather than admitting guilt or minimizing responsibility.
+
+    Analyze the transcript and return your findings as a JSON object with the following structure:
+
+    {
+      "findings": [
+        {
+          "quote": "Exact quote from the document",
+          "speaker": "Name of the person who said it",
+          "page": 1,
+          "line": 15,
+          "category": "category_name",
+          "significance": "Brief explanation of why this is significant for innocence analysis"
+        }
+      ],
+      "summary": {
+        "total_findings": 0,
+        "innocence_indicators": 0,
+        "responsibility_pressure": 0,
+        "consistency_issues": 0,
+        "external_evidence": 0,
+        "overall_assessment": "innocence_claim | guilt_minimization | inconclusive"
+      }
+    }
+
+    **Categories to use:**
+    - "direct_innocence_claim" - Direct denials of committing the crime or statements of non-participation
+    - "consistency_statement" - Statements that show consistency or inconsistency in the person's account
+    - "minimization_vs_innocence" - Statements that help distinguish between guilt minimization and innocence claims
+    - "responsibility_pressure" - Evidence of board pressure to admit guilt or accept responsibility
+    - "responsibility_response" - How the person responds to pressure to accept responsibility
+    - "external_evidence" - References to alibi, recanted testimony, weak evidence, coerced confessions
+    - "behavioral_clarity" - Direct, factual answers vs evasive or contradictory responses
+    - "procedural_issue" - Issues with legal process, representation, or conviction validity
+
+    **Instructions:**
+    1. Look for direct quotes that fit into these categories
+    2. Extract the exact text of significant statements
+    3. Identify the speaker (Commissioner name, defendant name, attorney, etc.)
+    4. Find the precise page and line numbers using the [PAGE X] and [Line Y] markers
+    5. Classify each quote into the appropriate category
+    6. Provide a brief explanation of why each quote is significant
+
+    **CRITICAL:** Only include actual quotes that exist in the document. Do not paraphrase or summarize - use exact text. Ensure page and line numbers are accurate based on the document markers.
+
+    Return ONLY valid JSON - no additional text or formatting.
+    """
+
+    # Read file content
+    file_content = await file.read()
+
+    # Validate file
+    pdf_service.validate_pdf_file(file.content_type or "", len(file_content))
+
+    try:
+        # Extract text from PDF
+        extracted_text = pdf_service.extract_text_from_pdf(file_content)
+
+        if not extracted_text:
+            raise HTTPException(status_code=400, detail="No text could be extracted from the PDF")
+
+        # Process with Gemini AI using innocence-focused prompt
+        innocence_analysis_raw = gemini_service.process_text_with_ai(extracted_text, innocence_analysis_prompt)
+
+        # Try to parse as JSON, handling markdown code blocks
+        try:
+            # Remove markdown code block markers if present
+            clean_json = innocence_analysis_raw.strip()
+            if clean_json.startswith("```json"):
+                clean_json = clean_json[7:]  # Remove ```json
+            if clean_json.endswith("```"):
+                clean_json = clean_json[:-3]  # Remove ```
+            clean_json = clean_json.strip()
+
+            innocence_analysis = json.loads(clean_json)
+        except (json.JSONDecodeError, ValueError):
+            # Fallback to structured format if AI didn't return valid JSON
+            innocence_analysis = {
+                "findings": [],
+                "summary": {
+                    "total_findings": 0,
+                    "innocence_indicators": 0,
+                    "responsibility_pressure": 0,
+                    "consistency_issues": 0,
+                    "external_evidence": 0,
+                    "overall_assessment": "inconclusive",
+                },
+                "raw_analysis": innocence_analysis_raw,
+                "note": "AI returned text format instead of JSON",
+            }
+
+        return {
+            "success": True,
+            "filename": file.filename,
+            "file_size": len(file_content),
+            "extracted_text_length": len(extracted_text),
+            "innocence_analysis": innocence_analysis,
+            "analysis_type": "structured_innocence_detection",
+            "categories": [
+                "direct_innocence_claim",
+                "consistency_statement",
+                "minimization_vs_innocence",
+                "responsibility_pressure",
+                "responsibility_response",
+                "external_evidence",
+                "behavioral_clarity",
+                "procedural_issue",
+            ],
         }
 
     except HTTPException:
