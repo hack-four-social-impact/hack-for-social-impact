@@ -1,0 +1,477 @@
+{
+  "success": true,
+  "filename": "Aguirre, V48415, 2024-09-12.pdf",
+  "file_size": 267288,
+  "extracted_text_length": 150490,
+  "innocence_analysis": {
+    "findings": [
+      {
+        "quote": "Mr. Aguirre, we are not here to reconsider the findings of the trial and appellate courts, nor are we here to retry your case. The purpose of today's hearing is to find who you are today and whether you pose an unreasonable risk of danger to society, if released.",
+        "speaker": "PRESIDING COMMISSIONER SCHNEIDER",
+        "page": 5,
+        "line": 16,
+        "category": "responsibility_pressure",
+        "significance": "Sets the context for the hearing, indicating that previous legal findings (guilt) are assumed, and the focus is on the incarcerated person's current rehabilitation and risk, not re-litigating innocence."
+      },
+      {
+        "quote": "Uh, the offer they was – they giving me was 15 years to life.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 11,
+        "line": 3,
+        "category": "procedural_issue",
+        "significance": "Indicates he rejected a plea deal that would have resulted in a life sentence, choosing instead to go to trial, which aligns with an initial stance of denying guilt."
+      },
+      {
+        "quote": "Right -- right.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 11,
+        "line": 13,
+        "category": "procedural_issue",
+        "significance": "Confirms he made the decision with his attorney to take a trial, supporting the idea of a prior denial of guilt before the current hearing."
+      },
+      {
+        "quote": "I didn't know what to say or what -- what to respond to her.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 18,
+        "line": 25,
+        "category": "behavioral_clarity",
+        "significance": "Explains why he waived his previous parole hearing, citing a lack of 'insight' and an inability to articulate his understanding of his actions, suggesting a past difficulty with full responsibility."
+      },
+      {
+        "quote": "In the beginning, I guess you -- you were denying it, um, correct?",
+        "speaker": "PRESIDING COMMISSIONER SCHNEIDER",
+        "page": 22,
+        "line": 11,
+        "category": "responsibility_pressure",
+        "significance": "Directly probes the incarcerated person's past denials of the crime, pushing him to acknowledge his historical stance."
+      },
+      {
+        "quote": "Uh, at -- at one point, yes, sir.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 22,
+        "line": 13,
+        "category": "responsibility_response",
+        "significance": "Acknowledges that he previously denied the crimes, setting the stage for his current stance on responsibility."
+      },
+      {
+        "quote": "Yes, sir. I -- and I take full responsibility for my -- for my actions.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 22,
+        "line": 17,
+        "category": "responsibility_response",
+        "significance": "A direct and unequivocal admission of guilt and acceptance of full responsibility for his actions, indicating he is not maintaining actual innocence."
+      },
+      {
+        "quote": "I'm going to say six to eight.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 22,
+        "line": 25,
+        "category": "minimization_vs_innocence",
+        "significance": "A slight minimization of the number of sexual assaults (the record indicates nine counts), suggesting an initial reluctance to fully accept the extent of his actions."
+      },
+      {
+        "quote": "Yes, sir. But like I said, if it's nine, there's -- there's nine, I'll -- I'll stay with the nine.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 23,
+        "line": 12,
+        "category": "consistency_statement",
+        "significance": "Retracts his initial minimization regarding the number of assaults, but only after being challenged, which highlights a tendency to initially minimize before conforming to the record."
+      },
+      {
+        "quote": "No, I don't know. Okay. No, I want -- I want to hear from you, okay. Don't just accede to the record. That doesn't help me. I got the record, okay.",
+        "speaker": "PRESIDING COMMISSIONER SCHNEIDER",
+        "page": 23,
+        "line": 15,
+        "category": "responsibility_pressure",
+        "significance": "The Commissioner directly pressures for genuine insight and personal account, rather than merely agreeing with the official record, indicating a suspicion of superficial responsibility."
+      },
+      {
+        "quote": "So what I mean is don't just say, yeah, I agree with the record, and I'm responsible. I -- I mean, of course you're responsible, right?",
+        "speaker": "PRESIDING COMMISSIONER SCHNEIDER",
+        "page": 23,
+        "line": 20,
+        "category": "responsibility_pressure",
+        "significance": "Further emphasizes the need for deep self-awareness and understanding of the 'why,' rather than just a formal admission of responsibility due to conviction."
+      },
+      {
+        "quote": "Yes. ... Yes. ... Yes. Yes, sir.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 24,
+        "line": 11,
+        "category": "responsibility_response",
+        "significance": "Directly acknowledges and accepts the label of 'pedophile,' demonstrating a crucial step in self-identification and insight into his sexual deviance."
+      },
+      {
+        "quote": "No, never.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 24,
+        "line": 26,
+        "category": "minimization_vs_innocence",
+        "significance": "Claims this victim was his first and he had never been around young girls before, which could be an attempt to limit the scope of his pedophilia to this specific context."
+      },
+      {
+        "quote": "Uh, like I -- like I said before, uh, one time we were -- we were playing -- both playing in the living room. I was wearing shorts, and she reached under the shorts and grabbed my penis, and I told her not to do that.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 25,
+        "line": 17,
+        "category": "minimization_vs_innocence",
+        "significance": "Frames the initial incident as the victim's initiation ('she reached under the shorts and grabbed my penis'), a common minimization tactic that shifts blame."
+      },
+      {
+        "quote": "Uh, my -- it wasn't accidental.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 26,
+        "line": 1,
+        "category": "consistency_statement",
+        "significance": "Clarifies that the child's action was not accidental, reinforcing his narrative of the child's active role, further downplaying his own initiation."
+      },
+      {
+        "quote": "Uh, I -- like I said, I didn't -- I didn't want to do -- I didn't want to do it anymore after the first time, but she kept insisting.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 28,
+        "line": 23,
+        "category": "minimization_vs_innocence",
+        "significance": "Explicitly blames the child for the continuation of the abuse ('she kept insisting'), a significant act of victim-blaming and minimizing his own culpability."
+      },
+      {
+        "quote": "Yes, sir. Let's -- let's do it again. Can we do it again?",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 29,
+        "line": 3,
+        "category": "minimization_vs_innocence",
+        "significance": "Details the child's alleged insistence, further solidifying his narrative of the victim's agency in continuing the abuse, rather than his own predatory behavior."
+      },
+      {
+        "quote": "Well, I guess by -- by -- by my past life, my trauma that I suffered, suffered sexual abuse, verbal abuse, physical abuse from my father, uh, my -- my wrong beliefs and my wrongful decisions that I made to cause -- cause her, uh, harm without thinking of the consequences.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 29,
+        "line": 17,
+        "category": "responsibility_response",
+        "significance": "Shifts from direct victim-blaming to explaining his actions through personal trauma and 'wrong beliefs,' which is a step towards insight but still lacks full ownership of the deliberate choice."
+      },
+      {
+        "quote": "Like I said, because I thought -- I thought somebody hurt me. I could -- I was -- hurt people hurt people.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 30,
+        "line": 11,
+        "category": "minimization_vs_innocence",
+        "significance": "Offers the 'hurt people hurt people' explanation, which is a common psychological defense but can serve to minimize personal agency and deliberate choice in the act."
+      },
+      {
+        "quote": "So I'm asking you, how did you convince yourself that it was right? Because when you said it was done to you, it wasn't pleasant. It wasn't like you enjoyed it and thought you should pass on your enjoyment of, uh, sex, uh -- uh, when you were sexually abused to her, correct?",
+        "speaker": "PRESIDING COMMISSIONER SCHNEIDER",
+        "page": 31,
+        "line": 10,
+        "category": "responsibility_pressure",
+        "significance": "Commissioner pushes for deeper insight into the internal justification for his actions, challenging the 'hurt people hurt people' narrative by noting his own negative experience as a victim."
+      },
+      {
+        "quote": "Just to have, uh, personal gratification.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 32,
+        "line": 6,
+        "category": "responsibility_response",
+        "significance": "A breakthrough admission where he directly identifies 'personal gratification' as the motive, indicating a significant step towards genuine insight and acceptance of selfish motivation."
+      },
+      {
+        "quote": "Uh, sometimes I get -– I -- I used to get home, and she'd be at home by herself, and that's when I took advantage of her.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 34,
+        "line": 9,
+        "category": "responsibility_response",
+        "significance": "Acknowledges taking advantage of the victim, indicating a clearer understanding of his predatory role and the exploitation of opportunity."
+      },
+      {
+        "quote": "I just talk my way into it.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 37,
+        "line": 19,
+        "category": "responsibility_response",
+        "significance": "Directly describes his manipulative method to engage the child in sexual acts, further eroding the initial 'she insisted' narrative."
+      },
+      {
+        "quote": "Uh, I told her, let's -- let's -- let's just have one -- let's just have sex one more time. And that's -– that -- that's -- that's it.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 37,
+        "line": 22,
+        "category": "responsibility_response",
+        "significance": "Describes a specific grooming tactic, showing his active role in initiating and prolonging the abuse, directly contradicting earlier minimization."
+      },
+      {
+        "quote": "It was supposed to be our secret. ... Uh, I told them -- told her to do the pinky -- pinky secret, not to tell anyone.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 38,
+        "line": 5,
+        "category": "responsibility_response",
+        "significance": "Details how he enforced secrecy using manipulation, demonstrating awareness of the coercive nature of his acts and further diminishing any notion of the child's 'insistence'."
+      },
+      {
+        "quote": "I helped her with her homework, gave her money to go to -- to go to McDonald's or Taco Bell, or buy her -- buy her food from Taco Bell and McDonald's.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 38,
+        "line": 16,
+        "category": "responsibility_response",
+        "significance": "Explains his grooming behavior by describing how he rewarded the child, indicating an understanding of the manipulative aspects of his actions."
+      },
+      {
+        "quote": "My guess it is, it - -- it is, uh, every time I tried -- every time I try to do anal so -- sex with her, she get mad.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 40,
+        "line": 20,
+        "category": "responsibility_response",
+        "significance": "Reveals that his desire to engage in anal sex with the victim was linked to his wife's refusal, exposing a disturbing aspect of his sexual motivations and self-gratification."
+      },
+      {
+        "quote": "Uh, yes. Yes -- yes, sir.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 43,
+        "line": 12,
+        "category": "responsibility_response",
+        "significance": "Admits that his ultimate goal was full penetration, indicating an understanding of the escalating nature of his abuse and his true intentions, moving past minimization of the severity."
+      },
+      {
+        "quote": "Uh, yes.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 43,
+        "line": 15,
+        "category": "responsibility_response",
+        "significance": "Directly states that full penetration was his ultimate goal, further acknowledging the premeditated and escalating nature of his abusive behavior."
+      },
+      {
+        "quote": "That is correct. I -- I was completely wrong, and I still kept doing it.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 44,
+        "line": 7,
+        "category": "responsibility_response",
+        "significance": "A clear statement of knowing his actions were wrong and continuing despite that knowledge, demonstrating a strong acceptance of deliberate wrongdoing."
+      },
+      {
+        "quote": "Self-gratification. No.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 44,
+        "line": 11,
+        "category": "responsibility_response",
+        "significance": "Reiterates that his actions were driven by self-gratification, admitting a lack of self-control driven by selfish desires."
+      },
+      {
+        "quote": "That is correct.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 44,
+        "line": 14,
+        "category": "responsibility_response",
+        "significance": "Concurs that his desire for self-gratification overrode his morals and ethics, showing a critical understanding of the internal conflict and his choice to prioritize his desires."
+      },
+      {
+        "quote": "Groomed.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 45,
+        "line": 6,
+        "category": "responsibility_response",
+        "significance": "Uses the correct term 'groomed' to describe his behavior, indicating an understanding of the manipulative and exploitative nature of his actions."
+      },
+      {
+        "quote": "By giving her whatever she wanted.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 45,
+        "line": 9,
+        "category": "responsibility_response",
+        "significance": "Explains his grooming tactic, demonstrating insight into how he manipulated the child to maintain secrecy and access."
+      },
+      {
+        "quote": "Uh, at one point, yes. ... By -– by -- by the abuse I was causing her, by the damage I was doing to her.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 49,
+        "line": 13,
+        "category": "responsibility_response",
+        "significance": "Acknowledges that the victim was afraid of him and the damage he inflicted, demonstrating empathy and understanding of victim impact."
+      },
+      {
+        "quote": "Uh, by me, uh, sexually abusing her, taking advantage her -- of her, taking her innocence away, and by me not taking in consideration what I was doing.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 49,
+        "line": 22,
+        "category": "responsibility_response",
+        "significance": "Further details the specific harms he caused, including taking her innocence, showing a more developed and explicit understanding of the victim's suffering."
+      },
+      {
+        "quote": "Yes, it was.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 51,
+        "line": 10,
+        "category": "responsibility_response",
+        "significance": "Acknowledges that even non-verbalized penetration attempts caused physical discomfort for the victim, showing a commitment to understanding the full extent of the harm."
+      },
+      {
+        "quote": "That is correct.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 51,
+        "line": 14,
+        "category": "responsibility_response",
+        "significance": "Agrees that the victim was afraid of repeated physical discomfort or pain, showing an understanding of the ongoing psychological and physical fear he instilled."
+      },
+      {
+        "quote": "I used to tell her, let's go -- let's go play.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 52,
+        "line": 21,
+        "category": "responsibility_response",
+        "significance": "Reiterates his deceptive method of luring the child, confirming his active and manipulative role in initiating the sexual encounters."
+      },
+      {
+        "quote": "Yes, sir.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 53,
+        "line": 26,
+        "category": "responsibility_response",
+        "significance": "Unequivocally affirms that the term 'pedophilia' applies to him, a critical step in self-awareness and accepting his condition."
+      },
+      {
+        "quote": "Uh, I don't think so.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 54,
+        "line": 24,
+        "category": "responsibility_response",
+        "significance": "Expresses a realistic understanding that pedophilia is a permanent condition, demonstrating crucial insight for long-term risk management and relapse prevention."
+      },
+      {
+        "quote": "That's going to -- that's going to stay with me for the rest of my life.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 55,
+        "line": 3,
+        "category": "responsibility_response",
+        "significance": "Reiterates his understanding of pedophilia as a lifelong condition, crucial for developing effective coping and prevention strategies."
+      },
+      {
+        "quote": "By controlling -- controlling my - - my urge or my urges, my desire of -- of, uh, harm -- harm people or kids for that matter.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 56,
+        "line": 20,
+        "category": "responsibility_response",
+        "significance": "Outlines his strategy for avoiding future harm, focusing on internal control over his urges, indicating self-awareness of his triggers."
+      },
+      {
+        "quote": "Uh, by -– if -- if that -- if that ever happens, I -- I'll use my coping skills. Walk away from -– from -- from, uh, kids or no -– no -- don't go around kids. Uh, don't go around schools. Uh -- uh, try -- try to do my best to stay away from them.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 57,
+        "line": 4,
+        "category": "responsibility_response",
+        "significance": "Articulates concrete coping strategies focused on avoidance of high-risk situations (children, schools), demonstrating a practical application of his insight for relapse prevention."
+      },
+      {
+        "quote": "No, sir.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 57,
+        "line": 25,
+        "category": "consistency_statement",
+        "significance": "States that he had no sexual thoughts about other children, maintaining that his attraction was specific to the victim, which is later questioned by the Commissioner."
+      },
+      {
+        "quote": "I'm telling you -- I'm telling you honest from the bottom of my heart, no.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 58,
+        "line": 3,
+        "category": "consistency_statement",
+        "significance": "Strongly reasserts the specificity of his attraction, emphasizing sincerity despite the Commissioner's skepticism, potentially indicating continued minimization of a broader pedophilic tendency."
+      },
+      {
+        "quote": "Because she's living in my house, I guess, having her close at home.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 58,
+        "line": 24,
+        "category": "minimization_vs_innocence",
+        "significance": "Offers a simplified explanation for the specificity of his pedophilia, attributing it to proximity, which could be seen as minimizing the internal, inherent nature of the condition."
+      },
+      {
+        "quote": "Never in my life until this happened.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 60,
+        "line": 4,
+        "category": "consistency_statement",
+        "significance": "Reaffirms that his sexual attraction to a child only manifested with this specific victim, which is an unusual claim for pedophilia and continues his narrative of unique circumstances."
+      },
+      {
+        "quote": "Correct.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 62,
+        "line": 9,
+        "category": "consistency_statement",
+        "significance": "Reiterates that his pedophilia was directed at only one person, a point of consistency in his testimony that the Board later addresses as an unusual but recognized type of pedophilia."
+      },
+      {
+        "quote": "Because they understand the damage they were causing.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 63,
+        "line": 7,
+        "category": "responsibility_response",
+        "significance": "Shows an intellectual understanding of victim impact from his Victim Awareness program, linking understanding of harm to reduced willingness to re-offend."
+      },
+      {
+        "quote": "He seemed to have a real lack of insight into, um, and maybe a little bit of confusion onto why he committed the crimes and why he continued with the crimes. Um, at first, he initially said that she had wanted it. Uh, when pressed on that a little bit more, he ended up saying that, um, because he was hurt, he would want to hurt. Um, and then third and finally, and -- and probably most relevant and most -- most honest, um, was that it was for personal gratification. Uh, but it took multiple questions and multiple tries to get him to that admission.",
+        "speaker": "DEPUTY DISTRICT ATTORNEY JOBE",
+        "page": 77,
+        "line": 3,
+        "category": "external_evidence",
+        "significance": "The DA's closing statement explicitly highlights Aguirre's initial minimization (blaming the victim, 'hurt people hurt people') and emphasizes that genuine insight into 'personal gratification' only came after significant pressure, indicating ongoing concerns about the depth of his responsibility."
+      },
+      {
+        "quote": "To Dahlia Luna and the Luna family. Dear Ms. Victoria Martinez Luna, there's no excuse for my actions. I have -- I have been searching my inner self, which led me to believe that I -- that it was okay to take an advantage of you. This monster, me, groom you for personal gratification. I traumatized you, caused you pain, caused you pain, distrust, stress, suffering, and to the point of relationship disorder. I do pray that you have sought help for any and all ill effects that I caused. I have applied myself into numerous self-help groups, especially child -- child sexual abuse. I can't express what I feel when I put myself in your shoes. It’s said that hurt people hurt people. There are other hurt people that are not in my situation. I made a conscience choice that I am a very ashamed of my aberrant actions, victimizing you. I'm sorry, could never heal your wound by taking your innocence from -- for you -- from you to give -- to forgive me. I don't expect you to. I just know -- I just know in my heart of rehabil -- rehabilitation, that this letter of amends is long -- is long overdue. I have reached out to others who have like crimes and believe that I -- if I can help to change their thinking process and belief system, not to victimize children, I believe I would've -- I would honor you since I'm sorry is not good enough for you.",
+        "speaker": "BERNARDO AGUIRRE",
+        "page": 81,
+        "line": 2,
+        "category": "responsibility_response",
+        "significance": "A comprehensive, direct, and remorseful statement of responsibility. He uses terms like 'monster' and 'groom,' acknowledges lack of excuse, deep victim harm (pain, distrust, trauma), personal gratification as a motive, and expresses a clear understanding of the gravity of his actions. This statement demonstrates a strong, final shift to full responsibility and insight, directly addressing and overcoming previous minimization."
+      },
+      {
+        "quote": "And to watch you struggle with some of the questions today let us know that you're a thinking man. Uh, and you didn't just rehearse a bunch of stuff and come in, and -– and -- and that matters to me as a Parole Commissioner because we can't, uh, predict every situation in the future.",
+        "speaker": "PRESIDING COMMISSIONER SCHNEIDER",
+        "page": 86,
+        "line": 10,
+        "category": "behavioral_clarity",
+        "significance": "The Commissioner's observation validates the authenticity of Aguirre's responses, including his struggles, indicating that his eventual admissions and insights were not rehearsed but genuinely thought through, reflecting true engagement rather than superficial compliance."
+      },
+      {
+        "quote": "you did finally get there today. Uh, it was all about your gratification at the expense of others, which is why everyone is in prison. Because you don't give a damn about the rest of us.",
+        "speaker": "PRESIDING COMMISSIONER SCHNEIDER",
+        "page": 86,
+        "line": 17,
+        "category": "responsibility_pressure",
+        "significance": "The Commissioner confirms that Aguirre ultimately reached the critical insight about 'personal gratification' as the core motivation for his crimes, validating his journey to deeper responsibility."
+      },
+      {
+        "quote": "something else I can say scientifically that we know about, uh, pedophilia, if it is limited to incest, we know that has the lowest recidivism rate. Uh, and we know the victims are family or live-in as happened here. And we know that it may not be enduring, but you -- but you told us that you believe it is enduring, which is important to say cause we don't want to say that just happened, it won't happen. And we want to keep our guards up, so it never happens again. Uh, and so your diagnosis, uh, we would agree with pedophilia, non-exclusive type, sexually attracted to females, limited to incest, falls in that category, falls in that 1% category.",
+        "speaker": "PRESIDING COMMISSIONER SCHNEIDER",
+        "page": 88,
+        "line": 9,
+        "category": "external_evidence",
+        "significance": "The Commissioner references scientific data on pedophilia (lowest recidivism for incest, non-exclusive type) to support the board's decision, connecting it to Aguirre's specific case and his understanding of his condition as enduring. This contextualizes his claims of specific attraction."
+      },
+      {
+        "quote": "It really is about the offender change, and it's about how responsive you've been.",
+        "speaker": "PRESIDING COMMISSIONER SCHNEIDER",
+        "page": 91,
+        "line": 17,
+        "category": "responsibility_pressure",
+        "significance": "The Commissioner explicitly states that the parole decision hinges on 'offender change' and responsiveness, underscoring that Aguirre's journey from initial denials and minimization to acceptance was a key factor in finding him suitable."
+      }
+    ],
+    "summary": {
+      "total_findings": 36,
+      "innocence_indicators": 0,
+      "responsibility_pressure": 6,
+      "consistency_issues": 6,
+      "external_evidence": 3,
+      "overall_assessment": "guilt_minimization"
+    }
+  },
+  "analysis_type": "structured_innocence_detection",
+  "categories": [
+    "direct_innocence_claim",
+    "consistency_statement",
+    "minimization_vs_innocence",
+    "responsibility_pressure",
+    "responsibility_response",
+    "external_evidence",
+    "behavioral_clarity",
+    "procedural_issue"
+  ]
+}

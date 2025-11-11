@@ -14,13 +14,18 @@ import {
   TextField,
   Typography,
   Avatar,
+  Modal,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import UploadFileOutlinedIcon from '@mui/icons-material/UploadFileOutlined';
 import PdfUploadModal from "../PdfUploadModal";
 import mockData from "../mockData.json";
 import { PDFExporter, type MockParoleData } from "../utils/pdfExporter";
 import type { ClientData, SidebarClient } from "../types/client";
 import type { ParoleSummaryResponse } from "../services/api";
+import innocenClaimData from '../innocenceClaimData.json';
+
 
 function Dashboard() {
   // Initialize with mock data
@@ -40,6 +45,7 @@ function Dashboard() {
   const [selected, setSelected] = useState<SidebarClient>(clients[0]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
+  const [isInnocenceModalOpen, setIsInnocenceModalOpen] = useState(false);
 
   const filteredClients = clients.filter(
     c =>
@@ -98,6 +104,30 @@ function Dashboard() {
     }
   };
 
+  // Use innocence claim data from JSON
+  const innocenceFindings = innocenClaimData.innocence_analysis.findings;
+
+  // Helper to format speaker name
+  const formatSpeakerName = (name: string) =>
+    name
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+
+  // Helper to format category
+  const formatCategory = (cat: string) =>
+    cat
+      .split('_')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+
+  // Helper to format client name to normal capitalization
+  const formatClientName = (name: string) =>
+    name
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+
   return (
     <Box sx={{ display: "flex", height: "100vh", bgcolor: "#fff" }}>
       {/* Sidebar */}
@@ -150,17 +180,14 @@ function Dashboard() {
               }}
             >
               <ListItemAvatar>
-                <Avatar>
-                  {client.name
-                    .split(" ")
-                    .map(n => n[0])
-                    .join("")}
+                <Avatar sx={{ bgcolor: (theme) => theme.palette.primary.main, color: '#fff' }}>
+                  {formatClientName(client.name).split(" ").map(n => n[0]).join("")}
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
                 primary={
                   <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
-                    <Typography fontWeight={600}>{client.name}</Typography>
+                    <Typography fontWeight={600}>{formatClientName(client.name)}</Typography>
                     <Chip
                       label={client.status}
                       color={client.status === "active" ? "primary" : "default"}
@@ -188,7 +215,9 @@ function Dashboard() {
             sx={{ borderRadius: 2, py: 1.5, fontWeight: 600, fontSize: 16 }}
             onClick={() => setIsModalOpen(true)}
           >
-            Upload Documents
+            <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <UploadFileOutlinedIcon sx={{ fontSize: 20, mr: 1 }} /> Upload Documents
+            </span>
           </Button>
         </Box>
       </Drawer>
@@ -216,29 +245,60 @@ function Dashboard() {
         )}
 
         {/* Document Analysis Section */}
-        <Paper
-          elevation={2}
-          sx={{ p: 4, borderRadius: 3, maxWidth: 800, mx: "auto", boxShadow: "0 2px 12px rgba(0,0,0,0.04)" }}
-        >
-          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 2 }}>
-            <Typography variant="h5" fontWeight={900} sx={{ color: "#1a1a1a", textAlign: "left", mb: 0 }}>
-              Case Analysis
-            </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              sx={{ borderRadius: 2, textTransform: "none", fontWeight: 600, px: 2, py: 1 }}
-              onClick={handleExportPDF}
-            >
-              <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <span style={{ fontSize: 18, marginRight: 4 }}>⭳</span> Export PDF
-              </span>
-            </Button>
+        <Paper elevation={2} sx={{ p: 4, borderRadius: 3, maxWidth: 800, mx: 'auto', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
+            <Box>
+              <Typography variant="h5" fontWeight={900} sx={{ color: '#1a1a1a', textAlign: 'left', mb: 0 }}>
+                Case Analysis
+              </Typography>
+              <Typography variant="subtitle1" color="#6b7280" sx={{ fontWeight: 500, textAlign: 'left', mt: 0.5 }}>
+                Comprehensive legal document summary
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', gap: 2 }}>
+              <Button
+                variant="outlined"
+                color="secondary"
+                sx={{
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  px: 2,
+                  py: 1,
+                  bgcolor: '#fff',
+                  borderColor: (theme) => theme.palette.primary.main,
+                  color: (theme) => theme.palette.primary.main,
+                  '&:hover': {
+                    bgcolor: '#f0f6ff',
+                    borderColor: (theme) => theme.palette.primary.main,
+                    color: (theme) => theme.palette.primary.main,
+                  },
+                }}
+                onClick={() => setIsInnocenceModalOpen(true)}
+              >
+                Innocence Claim
+              </Button>
+              {/* <Button variant="contained" color="primary" sx={{ borderRadius: 2, textTransform: 'none', fontWeight: 600, px: 2, py: 1 }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <FileDownloadOutlinedIcon sx={{ fontSize: 20, mr: 1 }} /> Export
+                </span>
+              </Button> */}
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ borderRadius: 2, textTransform: "none", fontWeight: 600, px: 2, py: 1 }}
+                onClick={handleExportPDF}
+              >
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <FileDownloadOutlinedIcon sx={{ fontSize: 20, mr: 1 }} /> Export
+                </span>
+                {/* <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <FileDownloadOutlinedIcon sx={{ fontSize: 20, mr: 1 }} /> Export
+                </span> */}
+              </Button>
+            </Box>
           </Box>
-          <Typography variant="subtitle1" color="#6b7280" sx={{ fontWeight: 500, textAlign: "left", mb: 2 }}>
-            Comprehensive legal document summary
-          </Typography>
-          <Typography variant="h6" fontWeight={700} sx={{ color: "#1a1a1a", textAlign: "left", mb: 1.5 }}>
+          <Typography variant="h6" fontWeight={700} sx={{ color: '#1a1a1a', textAlign: 'left', mb: 1.5 }}>
             Client Information
           </Typography>
           <Box sx={{ display: "flex", gap: 6, mt: 2, mb: 3 }}>
@@ -293,7 +353,7 @@ function Dashboard() {
           <Typography variant="h6" fontWeight={700} sx={{ mb: 1.5, color: "#1a1a1a", textAlign: "left" }}>
             Conviction Information
           </Typography>
-          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 6, mb: 3 }}>
+          <Box sx={{ display: 'flex', gap: 6, mb: 3 }}>
             <Box sx={{ flex: 1, minWidth: 200 }}>
               <Typography variant="subtitle2" fontWeight={600} color="#6b7280" sx={{ mb: 0.5, textAlign: "left" }}>
                 Date of Crime
@@ -318,6 +378,8 @@ function Dashboard() {
                 {selectedData?.demographics.convictionInfo.dateOfArrest}
               </Typography>
             </Box>
+          </Box>
+          <Box sx={{ display: 'flex', gap: 6, mb: 3 }}>
             <Box sx={{ flex: 1, minWidth: 200 }}>
               <Typography variant="subtitle2" fontWeight={600} color="#6b7280" sx={{ mb: 0.5, textAlign: "left" }}>
                 Charges
@@ -342,6 +404,8 @@ function Dashboard() {
                 {selectedData?.demographics.convictionInfo.sentenceLength}
               </Typography>
             </Box>
+          </Box>
+          <Box sx={{ display: 'flex', gap: 6, mb: 3 }}>
             <Box sx={{ flex: 1, minWidth: 200 }}>
               <Typography variant="subtitle2" fontWeight={600} color="#6b7280" sx={{ mb: 0.5, textAlign: "left" }}>
                 County
@@ -358,6 +422,7 @@ function Dashboard() {
                 {selectedData?.demographics.convictionInfo.trialOrPlea}
               </Typography>
             </Box>
+            <Box sx={{ flex: 1, minWidth: 200 }} />
           </Box>
           <Divider sx={{ mb: 3 }} />
           {/* Appeal Info */}
@@ -390,12 +455,10 @@ function Dashboard() {
               </Typography>
             </Box>
             <Box sx={{ flex: 1, minWidth: 200 }}>
-              <Typography variant="subtitle2" fontWeight={600} color="#6b7280" sx={{ mb: 0.5, textAlign: "left" }}>
-                Result
-              </Typography>
-              <Typography sx={{ color: "#1a1a1a", textAlign: "left" }}>
-                {selectedData?.demographics.appealInfo.result}
-              </Typography>
+              <Box sx={{ border: '2px solid #b3d4fc', borderRadius: 4, px: 3, py: 1.5, mx: 1, mb: 2, bgcolor: '#f7faff' }}>
+                <Typography variant="subtitle2" fontWeight={600} color="#6b7280" sx={{ mb: 0.5, textAlign: 'center' }}>Result</Typography>
+                <Typography sx={{ color: '#1a1a1a', textAlign: 'center' }}>{selectedData?.demographics.appealInfo.result}</Typography>
+              </Box>
             </Box>
             {Array.isArray(selectedData?.demographics.appealInfo?.habenasFilings) &&
               selectedData.demographics.appealInfo.habenasFilings.length > 0 && (
@@ -418,7 +481,7 @@ function Dashboard() {
           <Typography variant="h6" fontWeight={700} sx={{ mb: 1.5, color: "#1a1a1a", textAlign: "left" }}>
             Attorney Information
           </Typography>
-          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 6, mb: 3 }}>
+          <Box sx={{ display: 'flex', gap: 6, mb: 3 }}>
             <Box sx={{ flex: 1, minWidth: 200 }}>
               <Typography variant="subtitle2" fontWeight={600} color="#6b7280" sx={{ mb: 0.5, textAlign: "left" }}>
                 Current Attorney
@@ -444,6 +507,8 @@ function Dashboard() {
                 {selectedData?.demographics.attorneyInfo.currentAttorneyForIncarceratedPerson?.address}
               </Typography>
             </Box>
+          </Box>
+          <Box sx={{ display: 'flex', gap: 6, mb: 3 }}>
             <Box sx={{ flex: 1, minWidth: 200 }}>
               <Typography variant="subtitle2" fontWeight={600} color="#6b7280" sx={{ mb: 0.5, textAlign: "left" }}>
                 Phone
@@ -470,6 +535,8 @@ function Dashboard() {
                   : "No"}
               </Typography>
             </Box>
+          </Box>
+          <Box sx={{ display: 'flex', gap: 6, mb: 3 }}>
             <Box sx={{ flex: 1, minWidth: 200 }}>
               <Typography variant="subtitle2" fontWeight={600} color="#6b7280" sx={{ mb: 0.5, textAlign: "left" }}>
                 Representation Context
@@ -487,34 +554,28 @@ function Dashboard() {
               </Typography>
             </Box>
             <Box sx={{ flex: 1, minWidth: 200 }}>
-              <Typography variant="subtitle2" fontWeight={600} color="#6b7280" sx={{ mb: 0.5, textAlign: "left" }}>
-                Appellate Attorney
-              </Typography>
-              <Typography sx={{ color: "#1a1a1a", textAlign: "left" }}>
-                {selectedData?.demographics.attorneyInfo.appellateAttorney?.name}
-              </Typography>
+              <Typography variant="subtitle2" fontWeight={600} color="#6b7280" sx={{ mb: 0.5, textAlign: 'left' }}>Appellate Attorney</Typography>
+              <Typography sx={{ color: '#1a1a1a', textAlign: 'left' }}>{selectedData?.demographics.attorneyInfo.appellateAttorney?.name}</Typography>
             </Box>
-            {Array.isArray(selectedData?.demographics.attorneyInfo?.otherLegalRepresentation) &&
-              selectedData.demographics.attorneyInfo.otherLegalRepresentation.length > 0 && (
-                <Box sx={{ flex: 1, minWidth: 200 }}>
-                  <Typography variant="subtitle2" fontWeight={600} color="#6b7280" sx={{ mb: 0.5, textAlign: "left" }}>
-                    Other Legal Representation
-                  </Typography>
-                  <Box>
-                    {selectedData.demographics.attorneyInfo.otherLegalRepresentation.map((rep, idx) => (
-                      <Typography key={idx} sx={{ color: "#1a1a1a", textAlign: "left" }}>
-                        {rep.name} {rep.role ? `(${rep.role})` : ""}{" "}
-                        {"organization" in rep && rep.organization ? `- ${rep.organization}` : ""}
-                      </Typography>
-                    ))}
-                  </Box>
-                </Box>
-              )}
           </Box>
+          {Array.isArray(selectedData?.demographics.attorneyInfo?.otherLegalRepresentation) && selectedData.demographics.attorneyInfo.otherLegalRepresentation.length > 0 && (
+            <Box sx={{ display: 'flex', gap: 6, mb: 3 }}>
+              <Box sx={{ flex: 1, minWidth: 200 }}>
+                <Typography variant="subtitle2" fontWeight={600} color="#6b7280" sx={{ mb: 0.5, textAlign: 'left' }}>Other Legal Representation</Typography>
+                <Box>
+                  {selectedData.demographics.attorneyInfo.otherLegalRepresentation.map((rep, idx) => (
+                    <Typography key={idx} sx={{ color: '#1a1a1a', textAlign: 'left' }}>{rep.name} {rep.role ? `(${rep.role})` : ''} {'organization' in rep && rep.organization ? `- ${rep.organization}` : ''}</Typography>
+                  ))}
+                </Box>
+              </Box>
+              <Box sx={{ flex: 1, minWidth: 200 }} />
+              <Box sx={{ flex: 1, minWidth: 200 }} />
+            </Box>
+          )}
           <Divider sx={{ mb: 3 }} />
           {/* New Evidence */}
-          <Typography variant="h6" fontWeight={700} sx={{ mb: 1.5, color: "#1a1a1a", textAlign: "left" }}>
-            New Evidence
+          <Typography variant="h6" fontWeight={700} sx={{ mb: 1.5, color: '#1a1a1a', textAlign: 'left' }}>
+            Additional Information
           </Typography>
           <ul style={{ marginBottom: 24, marginTop: 0, paddingLeft: 24, textAlign: "left" }}>
             {selectedData?.demographics.newEvidence.map((evidence, idx) => (
@@ -557,6 +618,31 @@ function Dashboard() {
             <li style={{ marginBottom: 8 }}>Support: {selectedData?.demographics.prisonRecord.support}</li>
           </ul>
         </Paper>
+
+        {/* Innocence Claim Modal */}
+        <Modal open={isInnocenceModalOpen} onClose={() => setIsInnocenceModalOpen(false)}>
+          <Box sx={{ bgcolor: '#fff', p: 4, borderRadius: 2, maxWidth: 600, mx: 'auto', my: 8, boxShadow: 3, outline: 'none', maxHeight: '70vh', overflowY: 'auto' }}>
+            <Typography variant="h6" fontWeight={700} sx={{ mb: 2 }}>Possible Innocence Claims</Typography>
+            {(innocenceFindings as Array<{
+  quote: string;
+  page: number;
+  line: number;
+  speaker: string;
+  category: string;
+  significance: string;
+}>).map((finding, idx) => (
+              <Paper key={idx} sx={{ p: 2, mb: 2, bgcolor: '#f7f8fa' }}>
+                <Typography variant="subtitle2" fontWeight={700} sx={{ mb: 1 }}>
+                  "{finding.quote}" ({finding.page},{finding.line})
+                </Typography>
+                <Typography variant="body2" sx={{ mb: 0.5 }}><b>Speaker:</b> {formatSpeakerName(finding.speaker)}</Typography>
+                <Typography variant="body2" sx={{ mb: 0.5 }}><b>Category:</b> {formatCategory(finding.category)}</Typography>
+                <Typography variant="body2"><b>Significance:</b> {finding.significance}</Typography>
+              </Paper>
+            ))}
+            <Button variant="contained" color="primary" onClick={() => setIsInnocenceModalOpen(false)} sx={{ mt: 2 }}>Close</Button>
+          </Box>
+        </Modal>
       </Box>
 
       {/* PDF Upload Modal */}
