@@ -1,5 +1,11 @@
 # Cloud Build configuration for automatic deployment to Cloud Run
 # This file is triggered when you push to GitHub (after setting up Cloud Build trigger)
+#
+# COST-SAVING CONFIGURATION:
+# - Only trigger on 'main' branch (configure in Cloud Build trigger settings)
+# - Uses default E2 machine type (free tier: 120 build-minutes/day)
+# - Estimated cost: $0.00/month for typical usage (1-3 builds/day)
+# - Previous config (N1_HIGHCPU_8): ~$0.20-0.60/day for same usage
 
 steps:
   # Step 1: Build the Docker image
@@ -50,8 +56,12 @@ substitutions:
 
 # Specify which resources to build
 options:
-  # Enable faster builds with Kaniko cache
-  machineType: 'N1_HIGHCPU_8'
+  # Cost optimization: Use default E2 machine instead of N1_HIGHCPU_8
+  # N1_HIGHCPU_8 costs ~8x more in build-minutes (8 cores = 8 build-minutes per actual minute)
+  # Default E2 machine: ~1 build-minute per actual minute, stays within free tier (120 build-min/day)
+  # machineType: 'N1_HIGHCPU_8'  # COMMENTED OUT: Expensive, only use for large builds
+
+  # Cloud logging only (no legacy logging for cost efficiency)
   logging: CLOUD_LOGGING_ONLY
 
 # Timeout for entire build (default is 10 minutes)
