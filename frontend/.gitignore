@@ -32,3 +32,6 @@ next-env.d.ts
 *.sln
 *.sw?
 .vercel
+
+# Claude Code local settings
+.claude/

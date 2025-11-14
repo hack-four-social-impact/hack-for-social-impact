@@ -49,6 +49,9 @@ Thumbs.db
 *.swo
 *~
 
+# Claude Code local settings
+.claude/
+
 # Temporary files
 *.tmp
 *.temp
