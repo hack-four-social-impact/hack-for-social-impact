@@ -9,7 +9,7 @@
 **[View on Devpost →](https://devpost.com/software/justice-ai-w0g398)**
 
 ## The Problem
-[The Innocence Center](https://innocenceproject.org/)—a pro bono law firm freeing the wrongfully convicted—faces a critical challenge: potential clients who maintain their innocence may never reach the Center due to:
+[The Innocence Center](https://innocenceproject.org/), a pro bono law firm freeing the wrongfully convicted, faces a critical challenge: potential clients who maintain their innocence may never reach the Center due to:
 1. Self-selection from confusion regarding eligibility
 2. Simply not knowing the Innocence Center exists
 
@@ -60,7 +60,7 @@ Attorneys have everything they need to:
 ## Team
 - **[Derek Gomez](https://github.com/GomezDerek)** - Backend infrastructure, frontend architecture, project leadership
 - **[Luis Arevalo](https://github.com/luisarevalo21)** - API development, AI integration, PDF generation
-- **[Nicole Magallanes](https://github.com/nbmagallanesflores)** - Google Cloud Storage API development, frontend UI/UX
+- **[Nicole Magallanes](https://github.com/nbmagallanes)** - Google Cloud Storage API development, frontend UI/UX
 - **[Shay Afra](https://github.com/ShayAfra)** - Frontend CI/CD pipeline,  demo & presentation development
 
 ## For Fellow Developers
