@@ -1,56 +1,69 @@
 # Justice AI
 
-> Justice AI turns a long transcript into a one-page, fully cited brief. Upload, review, export. Minutes instead of hours, with verification built in.
+> Accelerating justice for the wrongfully convicted. Transform lengthy parole transcripts into verified, one-page case briefs in minutes.
+
+*Built for [Hack for Social Impact 2025](https://www.hackforsocialimpact.com/)*
+
+**[View Live App →](https://justice-ai-h4si.vercel.app)** 
+
+**[View on Devpost →](https://devpost.com/software/justice-ai-w0g398)**
 
 ## The Problem
-People with strong innocence claims are buried under long parole hearing transcripts. The Innocence Center is small, the intake queue is large, and time is the limiting resource. Our goal is simple: **Turn hours of document intake and digging into minutes of review.**
+[The Innocence Center](https://innocenceproject.org/)—a pro bono law firm freeing the wrongfully convicted—faces a critical challenge: potential clients who maintain their innocence may never reach the Center due to:
+1. Self-selection from confusion regarding eligibility
+2. Simply not knowing the Innocence Center exists
+
+Meanwhile, strong innocence claims sit buried in lengthy parole hearing transcripts that take hours to review.
+
+Our mission is to **find the innocent** and **accelerate attorney review** so the Innocence Center can **reach more people in need.**
 
 ## Our Solution
-Justice AI is an intake and analysis tool for parole hearing transcripts. It parses the text, cites line/page numbers, and surfaces the facts attorneys need first. Every factual statement carries a line citation so review stays verifiable.
+Justice AI is a proactive client identification and case analysis tool built specifically for parole hearing transcripts. It:
+- Detects explicit and implicit innocence claims
+- Generates 1-page briefs, can export as PDF
+- Extracts critical case factors
+- Provides line-level citations for all insights
+
+Every factual statement links directly back to the source transcript so attorneys can fact-check every claim.
+
+Attorneys have everything they need to:
+1. Identify eligible clients
+2. Approve cases
+3. Begin building legal cases for exoneration
 
 ## How It Works
 
-### Core Workflow
-1.  **Upload:** A parole hearing transcript is uploaded to the application.
-2.  **Analyze:** Justice AI parses and indexes the entire text with page and line references.
-3.  **Extract:** It extracts key signals, including:
-    -   Claim of innocence
-    -   Parole factors cited
-    -   Contradictions
-    -   Self-improvement programming
-    -   Direct quotes
-4.  **Summarize:** It generates a one-page case summary as a downloadable PDF.
-5.  **Review:** The summary and structured fields are saved to a case view for quick recall.
-
-### Application Tour
-The user interface is designed for efficiency:
--   **Left Panel:** Shows the client list with a search box for instant filtering. An upload button adds a new transcript and creates a case.
--   **Right Panel:** Shows the case analysis. An export button produces the one-page PDF summary. Below are the core extracted fields:
-    -   Name, CDCR number, current facility
-    -   Evidence used to convict
-    -   Conviction details
-    -   Appeals history
-    -   Attorney information
-    -   New evidence
-    -   Victim information
-    -   Prison record highlights
+1. Upload a parole hearing transcript
+2. Justice AI parses and indexes the transcript with page and line references. It detects and flags innocence claims—both explicit denials and contextual patterns. It extracts parole factors, contradictions, programming evidence, and supporting quotes.
+3. The summary and structured fields are saved to the case view for attorney review
+4. Attorneys may export the one-page case summary as a PDF to import into their case management system
 
 ## The Impact
-Early triage becomes faster and more consistent. New volunteers can contribute with confidence because the summary is short, structured, and fully cited. Attorneys spend less time hunting for information and more time making critical decisions.
+
+**Proactive reach:** The Innocence Center can now identify potential clients with strong evidence for innocence who may not know they qualify for representation.
+
+**Verifiable insights:** Line-level citations mean attorneys and volunteers can trust the analysis and verify every fact in seconds.
+
+**Faster triage:** Attorneys spend minutes reviewing cases instead of hours, enabling the lean team to scale impact.
 
 ## Tech Stack
 -   **Frontend:** React, TypeScript, Vite
--   **Backend:** Python, FastAPI
+-   **Backend:** Python, FastAPI, Google Cloud Storage
 -   **AI:** Google Gemini
--   **Deployment:** Google Cloud Run (backend), Vercel (frontend)
+-   **Deployment:** Vercel (frontend), Google Cloud Run (backend)
 
-## Getting Started
+## Future Improvements
+-   **Integration with Lawmatics:** Prefill client intake data for Lawmatics, the Innocence Center's CRM, to accelerate onboarding and early-stage case building.
+-   **Public source monitoring:** Automatically detect newly posted CDCR hearing transcripts to eliminate manual uploads.
+-   **Multi-transcript consolidation:** Merge multiple hearings per client into unified case files with deduplicated citations.
+
+## Team
+- **[Derek Gomez](https://github.com/GomezDerek)** - Backend infrastructure, frontend architecture, project leadership
+- **[Luis Arevalo](https://github.com/luisarevalo21)** - API development, AI integration, PDF generation
+- **[Nicole Magallanes](https://github.com/nbmagallanesflores)** - Google Cloud Storage API development, frontend UI/UX
+- **[Shay Afra](https://github.com/ShayAfra)** - Frontend CI/CD pipeline,  demo & presentation development
+
+## For Fellow Developers
 For detailed setup and local development instructions, please see the README files in the respective directories:
 -   [**Backend README**](./backend/README.md)
 -   [**Frontend README**](./frontend/README.md)
-
-## Future Improvements
--   **Automated Processing:** Utilize the Innocence Tracker to automatically process transcripts of flagged potential clients and autofill client applications for the Innocence Center.
--   **CRM Integration:** Integrate with Lawmatics so a new case record is created automatically with the structured fields.
--   **Automated Sourcing:** Monitor public sources for newly posted hearing transcripts to reduce manual uploads.
--   **Case Merging:** Allow multiple transcripts per client to be merged into one case file with deduplicated citations.
